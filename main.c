@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 int main(int ac, char **av)
 {
@@ -16,14 +17,18 @@ int main(int ac, char **av)
 	else
 		n = 6;
 	if (n != 0)
-		wait();
+	{
+		int status;
+		wait(&status);
+	}
 	int i;
 	for (i = n; i < n + 5; i++)
 	{
 		printf("%d ", i);
 		fflush(stdout);
 	}
-	printf("\n");
+	if (id != 0)
+		printf("\n");
 	// if (id == 0)
 	// 	printf("Hello from child process\n");
 	// else
