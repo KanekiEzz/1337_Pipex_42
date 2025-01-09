@@ -26,3 +26,15 @@ fork ();   // Line 3
  /  \    /  \   //  created by line 2
 L3  L3  L3  L3  // There will be 4 child processes 
                 // created by line 3
+
+
+# Execution
+Run the program like this:
+```
+./pipex input.txt "grep hello" "wc -l" output.txt
+```
+
+This command is equivalent to:
+```
+< input.txt grep hello | wc -l > output.txt
+```
