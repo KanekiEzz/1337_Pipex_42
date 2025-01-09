@@ -38,6 +38,6 @@ int	main(int ac, char **av, char **ev)
 	// 	error_and_exit("waitpid 1st child", 1);
 	// if (waitpid(id2, NULL, 0) == -1)
 	// 	error_and_exit("waitpid 2ed child", 1);
-	return (0);
+	// return (0);
 }
 
