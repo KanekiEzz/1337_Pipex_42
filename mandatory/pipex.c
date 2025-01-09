@@ -20,9 +20,8 @@ int	main(int ac, char **av, char **ev)
 
 	if (ac != 5)
 		error_and_exit("USAGE: ./pipex infile cmd1 cmd2 outfile\n", -9);
-		// printf("you");
-	// if (pipe(fd) == -1)
-	// 	error_and_exit("pipe", 1);
+	if (pipe(fd) == -1)
+		error_and_exit("pipe", 1);
 	// id = fork();
 	// if (id == -1)
 	// 	error_and_exit("fork", 1);
