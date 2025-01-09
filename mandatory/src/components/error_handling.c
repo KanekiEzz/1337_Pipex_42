@@ -23,3 +23,9 @@ void	error_and_exit(char *str, int exite)
 	if (exite != 0)
 		exit(exite);
 }
+
+void	close_fd(int fd, const char *msg)
+{
+	if (close(fd) == -1)
+		error_and_exit(msg, 1);
+}

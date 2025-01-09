@@ -21,10 +21,10 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
-/* FUNCTIONS */
+
 size_t	ft_strlen(const char *str);
 void	error_and_exit(char *str, int exit);
-
+void	close_fd(int fd, const char *msg);
 
 
 

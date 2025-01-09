@@ -22,11 +22,11 @@ int	main(int ac, char **av, char **ev)
 		error_and_exit("USAGE: ./pipex infile cmd1 cmd2 outfile\n", -9);
 	if (pipe(fd) == -1)
 		error_and_exit("pipe", 1);
-	// id = fork();
-	// if (id == -1)
-	// 	error_and_exit("fork", 1);
-	// if (id == 0)
-	// 	child_1(av, fd, ev);
+	id = fork();
+	if (id == -1)
+		error_and_exit("fork", 1);
+	if (id == 0)
+		child_1(av, fd, ev);
 	// id2 = fork();
 	// if (id2 == -1)
 	// 	error_and_exit("fork", 1);

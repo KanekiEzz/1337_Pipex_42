@@ -38,3 +38,16 @@ This command is equivalent to:
 ```
 < input.txt grep hello | wc -l > output.txt
 ```
+
+
+
+```
+int pipe(int fds[2]);
+```
+
+Parameters :
+```fd[0] will be the fd(file descriptor) for the 
+read end of pipe.
+fd[1] will be the fd for the write end of pipe.
+Returns : 0 on Success.
+-1 on error.```
