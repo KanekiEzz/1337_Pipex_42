@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 11:42:20 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/09 11:48:46 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/09 11:55:36 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
 
 /* FUNCTIONS */
 size_t	ft_strlen(const char *str);
 void	error_and_exit(char *str, int exit);
-
 
 
 void	execute_cmd(char *av, char **ev);
