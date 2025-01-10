@@ -42,12 +42,19 @@ enum init {
 //	components/pipex_utils.c
 void	pipex(t_list data, char **av, char **env);
 
+//	find_command.c
+char	*find_command_path(char *cmd, char **env);
+
 //	components/error_handling.c
 void	error_and_exit(char *str, int exit);
 void	close_fd(int fd, const char *msg);
 
 //	lib/
+char	**ft_split(char const *s, char c);
+char	*ft_strdup(const char *str);
+char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *str);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 
 

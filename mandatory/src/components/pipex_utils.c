@@ -72,6 +72,8 @@ void	pipex(t_list data, char **av, char **env)
 {
 	int	end[2];
 
+	
+
 	if (pipe(end) == -1)
 		error_and_exit("pipe error...\n", 14);
 	child1(data, av[2], end, env);
