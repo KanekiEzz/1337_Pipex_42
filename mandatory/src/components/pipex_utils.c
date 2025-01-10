@@ -16,7 +16,7 @@ static	void	redirect_fd(int from_fd, int to_fd, const char *str)
 {
     if (dup2(from_fd, to_fd) == -1)
         error_and_exit((char *)str, 1);
-    close_fd(from_fd, "close");
+    close(from_fd);
 }
 
 static void execute_cmd(char *cmd, char **env)
@@ -30,18 +30,18 @@ static void execute_cmd(char *cmd, char **env)
 
     full_path = find_command_path(args[0], env);
 	if (!full_path)
+	{
+		ft_free_string(args);
+        free(args);
         error_and_exit("find_command_path failed\n", 1);
+	}
 
-    if (full_path)
-    {
-        free(args[0]);
-        args[0] = full_path;
-    }
-
+    free(args[0]);
+    args[0] = full_path;
     execve(args[0], args, env);
-
+	ft_free_string(args);
 	free(args);
-    error_and_exit("execve failed\n", 1);
+    error_and_exit("Execution failed\n", 1);
 }
 
 static	void	child2(t_list data, char *cmd, int *end, char **env)

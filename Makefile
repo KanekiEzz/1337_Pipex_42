@@ -1,6 +1,6 @@
 NAME = pipex
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g  -fsanitize=address
+FLAGS = -Wall -Wextra -Werror
 INC = ./mandatory/include/pipex.h
 RM = rm -f
 

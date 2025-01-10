@@ -48,6 +48,7 @@ char	*find_command_path(char *cmd, char **env);
 //	components/error_handling.c
 void	error_and_exit(char *str, int exit);
 void	close_fd(int fd, char *msg);
+void	ft_free_string(char **str);
 
 //	lib/
 char	**ft_split(char const *s, char c);

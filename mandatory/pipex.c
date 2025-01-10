@@ -34,7 +34,6 @@ int	main(int ac, char **av, char **env)
 
 		close(data.fdin);
 		close(data.fdout);
-		free(data.path);
 	}
 	return (0);
 }

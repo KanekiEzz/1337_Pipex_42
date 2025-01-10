@@ -12,6 +12,17 @@
 
 #include "../../include/pipex.h"
 
+void ft_free_string(char **str)
+{
+	int i = 0;
+	while (str[i] != NULL)
+	{
+		free(str[i]);
+		i++;
+	}
+	return ;
+}
+
 void	error_and_exit(char *str, int exite)
 {
 	write(2, str, ft_strlen(str));

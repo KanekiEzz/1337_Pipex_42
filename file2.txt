@@ -1,10 +1,9 @@
-total 1320
--rwxr-xr-x 1 iezzam 2024_khouribga   16208 Jan 10 16:56 a.out
--rw-r--r-- 1 iezzam 2024_khouribga      13 Jan 10 16:04 file1.txt
--rw-r--r-- 1 iezzam 2024_khouribga       0 Jan 10 17:03 file2.txt
--rw-r--r-- 1 iezzam 2024_khouribga    2771 Jan 10 16:34 main.c
--rw-r--r-- 1 iezzam 2024_khouribga     798 Jan 10 16:12 Makefile
-drwxr-xr-x 4 iezzam 2024_khouribga      47 Jan 10 17:03 mandatory
--rwxr-xr-x 1 iezzam 2024_khouribga 1317864 Jan 10 17:03 pipex
-drwxr-xr-x 2 iezzam 2024_khouribga     115 Jan  9 17:33 public
--rw-r--r-- 1 iezzam 2024_khouribga    1225 Jan 10 14:32 README.md
+a.out
+file1.txt
+file2.txt
+main.c
+Makefile
+mandatory
+pipex
+public
+README.md
