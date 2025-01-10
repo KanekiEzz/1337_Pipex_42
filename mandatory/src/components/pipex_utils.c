@@ -41,7 +41,7 @@ static void execute_cmd(char *cmd, char **env)
     execve(args[0], args, env);
 
 	free(args);
-    error_and_exit("execve failed\n", 1);
+    // error_and_exit("execve failed\n", 1);
 }
 
 // static void    execute_cmd(char *cmd, char **env)
