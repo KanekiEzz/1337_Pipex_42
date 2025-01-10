@@ -6,6 +6,7 @@ RM = rm -f
 
 SRCS =	./mandatory/pipex.c \
 		./mandatory/src/components/error_handling.c \
+		./mandatory/src/components/pipex_utils.c \
 		./mandatory/src/lib/ft_strlen.c \
 
 OBJS = $(SRCS:.c=.o)

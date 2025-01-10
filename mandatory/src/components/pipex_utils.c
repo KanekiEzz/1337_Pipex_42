@@ -17,45 +17,69 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void redirect_fd(int from_fd, int to_fd, const char *msg)
+static	void	redirect_fd(int from_fd, int to_fd, const char *str)
 {
     if (dup2(from_fd, to_fd) == -1)
-        error_and_exit(msg, 1);
+        error_and_exit((char *)str, 1);
     close_fd(from_fd, "close");
 }
 
-void child_2(char **av, int *fd, char **ev)
+static	void	execute_cmd(char *cmd, char **env)
 {
-    int outfile;
-
-    close_fd(fd[1], "close");
-
-    outfile = open(av[4], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-    if (outfile == -1)
-        error_and_exit(av[4], 1);
-
-    redirect_fd(outfile, 1, "dup2");
-    close_fd(outfile, "close");
-
-    redirect_fd(fd[0], 0, "dup2");
-
-    execute_cmd(av[3], ev);
+    char *args[] = {cmd, NULL};
+	prcing();
+    execve(cmd, args, env);
+    error_and_exit("execve failed\n", 1);
 }
 
-void child_1(char **av, int *fd, char **ev)
+static	void	child2(t_list data, char *cmd, int *end, char **env)
 {
-    int infile;
+    pid_t	pid;
 
-    close_fd(fd[0], "close");
+    pid = fork();
+    if (pid == 0)
+	{
+        close(end[1]);
+		redirect_fd(end[0], 0, "dup2 failed\n");
+		redirect_fd(data.fdout, 1, "dup2 failed\n");
+		execute_cmd(cmd, env);
+	}
+	else if (pid == -1)
+	{
+		perror(NULL);
+	}
+}
 
-    infile = open(av[1], O_RDONLY);
-    if (infile == -1)
-        error_and_exit(av[1], 127);
+static	void	child1(t_list data, char *cmd, int *end, char **env)
+{
+	pid_t pid;
 
-    redirect_fd(infile, 0, "dup2");
-    close_fd(infile, "close");
+    pid = fork();
+    if (pid == 0)
+	{
+        close(end[0]);
+        redirect_fd(data.fdin, 0, "dup2 failed\n");
+		redirect_fd(end[1], 1, "dup2 failed\n");
+        execute_cmd(cmd, env);
+    }
+	else if (pid == -1)
+	{
+        perror(NULL);
+    }
+}
 
-    redirect_fd(fd[1], 1, "dup2");
+void	pipex(t_list data, char **av, char **env)
+{
+	int	end[2];
 
-    execute_cmd(av[2], ev);
+	if (pipe(end) == -1)
+		error_and_exit("pipe error...\n", 14);
+	child1(data, av[2], end, env);
+	close(data.fdin);
+	child2(data, av[3], end, env);
+	close(data.fdout);
+	close(end[0]);
+	close(end[1]);
+	while (wait(NULL) != -1)
+		;
 }

@@ -12,32 +12,26 @@
 
 #include "include/pipex.h"
 
-int	main(int ac, char **av, char **ev)
+int	main(int ac, char **av, char **env)
 {
-	int		fd[2];
-	int		id;
-	int		id2;
+	t_list data;
 
 	if (ac != 5)
 		error_and_exit("USAGE: ./pipex infile cmd1 cmd2 outfile\n", -9);
-	if (pipe(fd) == -1)
-		error_and_exit("pipe", 1);
-	id = fork();
-	if (id == -1)
-		error_and_exit("fork", 1);
-	if (id == 0)
-		child_1(av, fd, ev);
-	// id2 = fork();
-	// if (id2 == -1)
-	// 	error_and_exit("fork", 1);
-	// if (id2 == 0)
-	// 	child_2(av, fd, ev);
-	// if (close(fd[0]) == -1 || close(fd[1]) == -1)
-	// 	error_and_exit("close", 1);
-	// if (waitpid(id, NULL, 0) == -1)
-	// 	error_and_exit("waitpid 1st child", 1);
-	// if (waitpid(id2, NULL, 0) == -1)
-	// 	error_and_exit("waitpid 2ed child", 1);
-	// return (0);
+	if (!env)
+		error_and_exit("USAGE: ./pipex infile cmd1 cmd2 outfile\n", -9);
+	if (ac == 5)
+	{
+		data.infile = av[1];
+		data.fdin = open(av[1], O_RDONLY, 0466);
+		if (data.fdin)
+			error_and_exit("error open\n", 11);
+		data.outfile = av[4];
+		data.fdout = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
+		if (data.fdout)
+			error_and_exit("error open\n", 11);
+		pipex(data, av, env);
+		free(data.path);
+	}
+	return (0);
 }
-

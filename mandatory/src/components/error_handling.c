@@ -14,18 +14,12 @@
 
 void	error_and_exit(char *str, int exite)
 {
-	if (exite == -9)
-	{
-		write(2, str, ft_strlen(str));
-		exit (1);
-	}
-	perror(str);
-	if (exite != 0)
-		exit(exite);
+	write(2, str, ft_strlen(str));
+	exit (exite);
 }
 
-void	close_fd(int fd, const char *msg)
+void	close_fd(int fd, const char *str)
 {
 	if (close(fd) == -1)
-		error_and_exit(msg, 1);
+		error_and_exit(str, 1);
 }

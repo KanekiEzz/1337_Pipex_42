@@ -21,27 +21,48 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
+typedef struct s_stract
+{
+	char	**cmd;
+	char	*path;
+	char	*infile;
+	char	*outfile;
+	int		fdin;
+	int		fdout;
+	struct s_stract *left;
+	struct s_stract *right;
+} t_list;
 
-size_t	ft_strlen(const char *str);
+enum init {
+    LOW = 25,
+    MEDIUM = 50,
+    HIGH = 75
+};
+
+//	components/pipex_utils.c
+void	pipex(t_list data, char **av, char **env);
+
+//	components/error_handling.c
 void	error_and_exit(char *str, int exit);
 void	close_fd(int fd, const char *msg);
 
+//	lib/
+size_t	ft_strlen(const char *str);
 
 
 
 
-
-void	execute_cmd(char *av, char **ev);
-void	execute_help(char **cmd1, char **ev);
-char	**freet(char **ptr, int i);
-void	parent(char **av, int *fd, char **ev);
-char	*find_path(char **ev, char *vr_env);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strtok(char *str, char *delimter);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strjoin(char const *s1, char *s2);
-void	child_1(char **av, int *fd, char **ev);
-char	**ft_split(char const *s, char c);
+// void	execute_cmd(char *av, char **ev);
+// void	execute_help(char **cmd1, char **ev);
+// char	**freet(char **ptr, int i);
+// void	parent(char **av, int *fd, char **ev);
+// char	*find_path(char **ev, char *vr_env);
+// char	*ft_strchr(const char *s, int c);
+// char	*ft_strtok(char *str, char *delimter);
+// int		ft_strncmp(const char *s1, const char *s2, size_t n);
+// int		ft_strcmp(const char *s1, const char *s2);
+// char	*ft_strjoin(char const *s1, char *s2);
+// void	child_1(char **av, int *fd, char **ev);
+// char	**ft_split(char const *s, char c);
 
 #endif

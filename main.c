@@ -1,13 +1,14 @@
-# include <unistd.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <string.h>
 
-// #define MSGSIZE 16 
+// #define MSGSIZE 16
 
-// char* msg1 = "hello, world #1"; 
-// char* msg2 = "hello, world #2"; 
-// char* msg3 = "hello, world #3"; 
+// char* msg1 = "hello, world #1";
+// char* msg2 = "hello, world #2";
+// char* msg3 = "hello, world #3";
 
 // int main (int ac, char **av)
 // {
@@ -18,8 +19,8 @@
 // 		perror("pipe");
 // 		exit(1);
 // 	}
-//     write(fd[1], msg1, MSGSIZE); 
-//     write(fd[1], msg2, MSGSIZE); 
+//     write(fd[1], msg1, MSGSIZE);
+//     write(fd[1], msg2, MSGSIZE);
 //     write(fd[1], msg3, MSGSIZE);
 // 	int i = 0;
 // 	while (i < 3)
@@ -29,11 +30,9 @@
 // 		i++;
 // 	}
 
-
 // 	close(fd[0]);
 // 	close(fd[1]);
 // }
-
 
 // int main()
 // {
@@ -49,3 +48,49 @@
 
 //     return 0;
 // }
+
+// enum Level {
+// 	Low = 25,
+// 	MEDIUM = 50,
+// 	High = 75
+// };
+
+// int main ()
+// {
+
+// 	printf("%d", Low);
+// }
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main(int ac, char **av, char **env)
+{
+    (void)ac;
+    (void)av;
+
+    char *path = getenv("PATH");
+    if (!path)
+    {
+        fprintf(stderr, "PATH environment variable not found.\n");
+        return 1;
+    }
+
+    char path_copy[4096];
+    strncpy(path_copy, path, sizeof(path_copy) - 1);
+    path_copy[sizeof(path_copy) - 1] = '\0';
+
+    const char delim[2] = ":";
+    char *token;
+
+    token = strtok(path_copy, delim);
+
+    while (token != NULL)
+    {
+        printf("%s\n", token);
+        token = strtok(NULL, delim);
+    }
+
+    return 0;
+}
