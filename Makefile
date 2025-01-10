@@ -1,7 +1,7 @@
 NAME = pipex
 CC = cc
-FLAGS = -Wall -Wextra -Werror -g 
-INC = ./mandatory/include/pipex..h
+FLAGS = -Wall -Wextra -Werror -g  -fsanitize=address
+INC = ./mandatory/include/pipex.h
 RM = rm -f
 
 SRCS =	./mandatory/pipex.c \
@@ -22,7 +22,6 @@ mandatory/%.o: mandatory/%.c ${INC}
 
 ${NAME}: ${OBJS}
 	${CC} ${FLAGS} ${OBJS} -o ${NAME}
-
 
 all: ${NAME}
 

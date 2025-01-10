@@ -41,25 +41,8 @@ static void execute_cmd(char *cmd, char **env)
     execve(args[0], args, env);
 
 	free(args);
-    // error_and_exit("execve failed\n", 1);
+    error_and_exit("execve failed\n", 1);
 }
-
-// static void    execute_cmd(char *cmd, char **env)
-// {
-//     char **args = ft_split(cmd, ' ');
-//     if (!args)
-//     {
-//         perror("ft_split");
-//         exit(EXIT_FAILURE);
-//     }
-//     if (execvp(args[0], args) == -1)
-//     {
-//         perror("execvp");
-//         free(args);
-//         exit(EXIT_FAILURE);
-//     }
-// }
-
 
 static	void	child2(t_list data, char *cmd, int *end, char **env)
 {

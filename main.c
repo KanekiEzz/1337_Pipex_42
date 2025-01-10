@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <string.h>
+#include "./mandatory/include/pipex.h"
 
 // #define MSGSIZE 16
 
@@ -96,19 +97,53 @@
 // }
 
 
-#include <unistd.h>
-#include <stdio.h>
-#include "./mandatory/include/pipex.h"
 
-int main(int ac, char **av, char **env)
-{
-	if (ac == 2)
-	{
-		int i = 0;
-		char **c = ft_split(av[1], ' ');
-    	char *envp[] = { NULL };
-		if (execvp(c[0], c) == -1)
-			perror("execve");
-	}
+// int main(int ac, char **av, char **env)
+// {
+// 	if (ac == 2)
+// 	{
+// 		int i = 0;
+// 		char **c = ft_split(av[1], ' ');
+//     	char *envp[] = { NULL };
+// 		if (execvp(c[0], c) == -1)
+// 			perror("execve");
+// 	}
+//     return 0;
+// }
+
+
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(int ac, char **av, char **env) {
+    if (ac < 2) {
+        fprintf(stderr, "Usage: %s <command>\n", av[0]);
+        return 1;
+    }
+
+    char *cmd = av[1];
+    char *path = getenv("PATH");
+    char full_cmd[1024];
+    int found = 0;
+
+    if (path) {
+        char *dir = strtok(path, ":");
+        while (dir) {
+            snprintf(full_cmd, sizeof(full_cmd), "%s/%s", dir, cmd);
+            if (access(full_cmd, X_OK) == 0) {
+                found = 1;
+                printf("===cmd: %s\n==\n", full_cmd);
+                break;
+            }
+            dir = strtok(NULL, ":");
+        }
+    }
+
+    if (!found) {
+        printf("ta (lwa)\n");
+    }
+
     return 0;
 }

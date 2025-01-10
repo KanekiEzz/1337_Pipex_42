@@ -25,11 +25,11 @@ int	main(int ac, char **av, char **env)
 		data.infile = av[1];
 		data.fdin = open(av[1], O_RDONLY, 0466);
 		if (data.fdin == -1)
-			error_and_exit("error open\n", -1);
+			error_and_exit("error open no such file or directory\n", -1);
 		data.outfile = av[4];
 		data.fdout = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (data.fdout == -1)
-			error_and_exit("error open\n", -1);
+			error_and_exit("error open no such file or directory\n", -1);
 		pipex(data, av, env);
 
 		close(data.fdin);

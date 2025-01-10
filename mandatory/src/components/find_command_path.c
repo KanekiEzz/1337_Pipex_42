@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 11:39:03 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/10 15:44:21 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/10 17:01:07 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char *find_command_path(char *cmd, char **env)
     int i;
 
     if (access(cmd, X_OK) == 0)
-        return (cmd);
+        return (ft_strdup(cmd));
+	
 
     i = 0;
     while (env[i] && ft_strncmp(env[i], "PATH=", 5) != 0)
@@ -39,16 +40,15 @@ char *find_command_path(char *cmd, char **env)
     {
         temp = ft_strjoin(dir, "/");
 		if (!temp)
-			(error_and_exit("ft_strjoin temp failed\n", -1), free(temp));
-        full_path = ft_strjoin(full_path, cmd);
-		if (!full_path)
-			(error_and_exit("ft_strjoin temp failed\n", -1), free(full_path), free(temp));
+			(error_and_exit("ft_strjoin temp failed\n", 1), free(path));
+        full_path = ft_strjoin(temp, cmd);
 		free(temp);
+		if (!full_path)
+			(error_and_exit("ft_strjoin full_path failed\n", 1), free(path));
 
         if (access(full_path, X_OK) == 0)
         {
             free(path);
-			free(full_path);
             return (full_path);
         }
 
