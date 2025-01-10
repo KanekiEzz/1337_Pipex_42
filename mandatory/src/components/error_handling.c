@@ -12,7 +12,7 @@
 
 #include "../../include/pipex.h"
 
-void	error_and_exit(char *str, int exite)
+void	error_and_exit(const char *str, int exite)
 {
 	write(2, str, ft_strlen(str));
 	exit (exite);

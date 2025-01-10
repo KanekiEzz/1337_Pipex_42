@@ -61,36 +61,54 @@
 // 	printf("%d", Low);
 // }
 
+// #include <stdio.h>
+// #include <string.h>
+// #include <stdlib.h>
+
+// int main(int ac, char **av, char **env)
+// {
+//     (void)ac;
+//     (void)av;
+
+//     char *path = getenv("PATH");
+//     if (!path)
+//     {
+//         fprintf(stderr, "PATH environment variable not found.\n");
+//         return 1;
+//     }
+
+//     char path_copy[4096];
+//     strncpy(path_copy, path, sizeof(path_copy) - 1);
+//     path_copy[sizeof(path_copy) - 1] = '\0';
+
+//     const char delim[2] = ":";
+//     char *token;
+
+//     token = strtok(path_copy, delim);
+
+//     while (token != NULL)
+//     {
+//         printf("%s\n", token);
+//         token = strtok(NULL, delim);
+//     }
+
+//     return 0;
+// }
+
+
+#include <unistd.h>
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include "./mandatory/include/pipex.h"
 
 int main(int ac, char **av, char **env)
 {
-    (void)ac;
-    (void)av;
-
-    char *path = getenv("PATH");
-    if (!path)
-    {
-        fprintf(stderr, "PATH environment variable not found.\n");
-        return 1;
-    }
-
-    char path_copy[4096];
-    strncpy(path_copy, path, sizeof(path_copy) - 1);
-    path_copy[sizeof(path_copy) - 1] = '\0';
-
-    const char delim[2] = ":";
-    char *token;
-
-    token = strtok(path_copy, delim);
-
-    while (token != NULL)
-    {
-        printf("%s\n", token);
-        token = strtok(NULL, delim);
-    }
-
+	if (ac == 2)
+	{
+		int i = 0;
+		char **c = ft_split(av[1], ' ');
+    	char *envp[] = { NULL };
+		if (execvp(c[0], c) == -1)
+			perror("execve");
+	}
     return 0;
 }

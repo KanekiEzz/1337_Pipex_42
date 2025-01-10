@@ -24,13 +24,30 @@ static	void	redirect_fd(int from_fd, int to_fd, const char *str)
     close_fd(from_fd, "close");
 }
 
-static	void	execute_cmd(char *cmd, char **env)
+// static	void	execute_cmd(char *cmd, char **env)
+// {
+//     char *args[] = {cmd, NULL};
+// 	prcing();
+//     execve(cmd, args, env);
+//     error_and_exit("execve failed\n", 1);
+// }
+
+static void    execute_cmd(char *cmd, char **env)
 {
-    char *args[] = {cmd, NULL};
-	prcing();
-    execve(cmd, args, env);
-    error_and_exit("execve failed\n", 1);
+    char **args = ft_split(cmd, ' ');
+    if (!args)
+    {
+        perror("ft_split");
+        exit(EXIT_FAILURE);
+    }
+    if (execvp(args[0], args) == -1)
+    {
+        perror("execvp");
+        free(args);
+        exit(EXIT_FAILURE);
+    }
 }
+
 
 static	void	child2(t_list data, char *cmd, int *end, char **env)
 {

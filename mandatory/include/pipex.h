@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+#include <string.h>
 
 typedef struct s_stract
 {
@@ -46,7 +47,7 @@ void	pipex(t_list data, char **av, char **env);
 char	*find_command_path(char *cmd, char **env);
 
 //	components/error_handling.c
-void	error_and_exit(char *str, int exit);
+void	error_and_exit(const char *str, int exit);
 void	close_fd(int fd, const char *msg);
 
 //	lib/

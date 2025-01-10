@@ -9,8 +9,10 @@ SRCS =	./mandatory/pipex.c \
 		./mandatory/src/components/find_command_path.c \
 		./mandatory/src/components/pipex_utils.c \
 		./mandatory/src/lib/ft_split.c \
+		./mandatory/src/lib/ft_strdup.c \
 		./mandatory/src/lib/ft_strjoin.c \
 		./mandatory/src/lib/ft_strlen.c \
+		./mandatory/src/lib/ft_strncmp.c \
 
 OBJS = $(SRCS:.c=.o)
 
