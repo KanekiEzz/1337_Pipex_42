@@ -12,11 +12,6 @@
 
 #include "../../include/pipex.h"
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 static	void	redirect_fd(int from_fd, int to_fd, const char *str)
 {
     if (dup2(from_fd, to_fd) == -1)
@@ -24,29 +19,46 @@ static	void	redirect_fd(int from_fd, int to_fd, const char *str)
     close_fd(from_fd, "close");
 }
 
-// static	void	execute_cmd(char *cmd, char **env)
-// {
-//     char *args[] = {cmd, NULL};
-// 	prcing();
-//     execve(cmd, args, env);
-//     error_and_exit("execve failed\n", 1);
-// }
-
-static void    execute_cmd(char *cmd, char **env)
+static void execute_cmd(char *cmd, char **env)
 {
-    char **args = ft_split(cmd, ' ');
-    if (!args)
+    char **args;
+    char *full_path;
+
+    args = ft_split(cmd, ' ');
+	if (!args)
+        error_and_exit("ft_split failed\n", 1);
+
+    full_path = find_command_path(args[0], env);
+	if (!full_path)
+        error_and_exit("find_command_path failed\n", 1);
+
+    if (full_path)
     {
-        perror("ft_split");
-        exit(EXIT_FAILURE);
+        free(args[0]);
+        args[0] = full_path;
     }
-    if (execvp(args[0], args) == -1)
-    {
-        perror("execvp");
-        free(args);
-        exit(EXIT_FAILURE);
-    }
+
+    execve(args[0], args, env);
+
+	free(args);
+    error_and_exit("execve failed\n", 1);
 }
+
+// static void    execute_cmd(char *cmd, char **env)
+// {
+//     char **args = ft_split(cmd, ' ');
+//     if (!args)
+//     {
+//         perror("ft_split");
+//         exit(EXIT_FAILURE);
+//     }
+//     if (execvp(args[0], args) == -1)
+//     {
+//         perror("execvp");
+//         free(args);
+//         exit(EXIT_FAILURE);
+//     }
+// }
 
 
 static	void	child2(t_list data, char *cmd, int *end, char **env)
@@ -88,8 +100,6 @@ static	void	child1(t_list data, char *cmd, int *end, char **env)
 void	pipex(t_list data, char **av, char **env)
 {
 	int	end[2];
-
-	
 
 	if (pipe(end) == -1)
 		error_and_exit("pipe error...\n", 14);

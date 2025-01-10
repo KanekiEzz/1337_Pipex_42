@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"pipex.h": "c",
+		"fcntl.h": "c",
+		"unistd.h": "c"
+	}
+}

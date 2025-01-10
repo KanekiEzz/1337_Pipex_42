@@ -1,6 +1,6 @@
 NAME = pipex
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g 
 INC = ./mandatory/include/pipex..h
 RM = rm -f
 
@@ -13,6 +13,7 @@ SRCS =	./mandatory/pipex.c \
 		./mandatory/src/lib/ft_strjoin.c \
 		./mandatory/src/lib/ft_strlen.c \
 		./mandatory/src/lib/ft_strncmp.c \
+		./mandatory/src/lib/ft_strtok.c \
 
 OBJS = $(SRCS:.c=.o)
 

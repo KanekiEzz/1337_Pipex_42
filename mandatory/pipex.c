@@ -19,18 +19,21 @@ int	main(int ac, char **av, char **env)
 	if (ac != 5)
 		error_and_exit("USAGE: ./pipex infile cmd1 cmd2 outfile\n", -9);
 	if (!env)
-		error_and_exit("USAGE: ./pipex infile cmd1 cmd2 outfile\n", -9);
+		error_and_exit("Environment variables not found\n", -9);
 	if (ac == 5)
 	{
 		data.infile = av[1];
 		data.fdin = open(av[1], O_RDONLY, 0466);
-		if (data.fdin)
-			error_and_exit("error open\n", 11);
+		if (data.fdin == -1)
+			error_and_exit("error open\n", -1);
 		data.outfile = av[4];
 		data.fdout = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-		if (data.fdout)
-			error_and_exit("error open\n", 11);
+		if (data.fdout == -1)
+			error_and_exit("error open\n", -1);
 		pipex(data, av, env);
+
+		close(data.fdin);
+		close(data.fdout);
 		free(data.path);
 	}
 	return (0);

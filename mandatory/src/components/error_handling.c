@@ -12,13 +12,13 @@
 
 #include "../../include/pipex.h"
 
-void	error_and_exit(const char *str, int exite)
+void	error_and_exit(char *str, int exite)
 {
 	write(2, str, ft_strlen(str));
 	exit (exite);
 }
 
-void	close_fd(int fd, const char *str)
+void	close_fd(int fd, char *str)
 {
 	if (close(fd) == -1)
 		error_and_exit(str, 1);
