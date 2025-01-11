@@ -29,8 +29,6 @@ typedef struct s_stract
 	char	*outfile;
 	int		fdin;
 	int		fdout;
-	struct s_stract *left;
-	struct s_stract *right;
 } t_list;
 
 enum init {
