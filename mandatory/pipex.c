@@ -17,9 +17,9 @@ int	main(int ac, char **av, char **env)
 	t_list data;
 
 	if (ac != 5)
-		error_and_exit("USAGE: ./pipex infile cmd1 cmd2 outfile\n", -9);
+		error_and_exit("USAGE: ./pipex infile cmd1 cmd2 outfile\n", 1);
 	if (!env)
-		error_and_exit("Environment variables not found\n", -9);
+		error_and_exit("Environment variables not found\n", 1);
 	if (ac == 5)
 	{
 		data.infile = av[1];

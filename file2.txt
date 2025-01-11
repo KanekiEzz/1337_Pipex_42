@@ -1,9 +1,0 @@
-a.out
-file1.txt
-file2.txt
-main.c
-Makefile
-mandatory
-pipex
-public
-README.md

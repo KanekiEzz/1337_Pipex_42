@@ -57,9 +57,7 @@ static	void	child2(t_list data, char *cmd, int *end, char **env)
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
-	{
-		perror(NULL);
-	}
+		perror("Could not create pipe in child2 Hello again parent process!\n");
 }
 
 static	void	child1(t_list data, char *cmd, int *end, char **env)
@@ -75,9 +73,7 @@ static	void	child1(t_list data, char *cmd, int *end, char **env)
         execute_cmd(cmd, env);
     }
 	else if (pid == -1)
-	{
-        perror(NULL);
-    }
+		perror("Could not create pipe  in child2 Hello again parent process!\n");
 }
 
 void	pipex(t_list data, char **av, char **env)

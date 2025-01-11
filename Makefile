@@ -4,6 +4,11 @@ FLAGS = -Wall -Wextra -Werror
 INC = ./mandatory/include/pipex.h
 RM = rm -f
 
+GREEN = \033[0;32m
+YELLOW = \033[0;33m
+RED = \033[0;31m
+RESET = \033[0m
+
 SRCS =	./mandatory/pipex.c \
 		./mandatory/src/components/error_handling.c \
 		./mandatory/src/components/find_command_path.c \
@@ -18,18 +23,22 @@ SRCS =	./mandatory/pipex.c \
 OBJS = $(SRCS:.c=.o)
 
 mandatory/%.o: mandatory/%.c ${INC}
-	${CC} ${FLAGS} -c $< -o $@
+	@printf "$(YELLOW)Compiling: $<$(RSEST)\n"
+	@${CC} ${FLAGS} -c $< -o $@
 
 ${NAME}: ${OBJS}
+	@printf "$(GREEN)Building: ${NAME}$(RESET)\n"
 	${CC} ${FLAGS} ${OBJS} -o ${NAME}
 
 all: ${NAME}
 
 clean:
-	$(RM) $(OBJS)
+	@printf "$(RED)Cleaning object files...$(RESET)\n"
+	@$(RM) $(OBJS)
 
 fclean: clean
-	$(RM) ${NAME}
+	@printf "$(RED)Removing executable...$(RESET)\n"
+	@$(RM) ${NAME}
 
 re: fclean all
 

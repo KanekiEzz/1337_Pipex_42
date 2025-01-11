@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <string.h>
-#include "./mandatory/include/pipex.h"
+#include "../mandatory/include/pipex.h"
 
 // #define MSGSIZE 16
 
@@ -112,38 +112,70 @@
 // }
 
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
+// int main(int ac, char **av, char **env) {
+//     if (ac < 2) {
+//         fprintf(stderr, "Usage: %s <command>\n", av[0]);
+//         return 1;
+//     }
 
-int main(int ac, char **av, char **env) {
-    if (ac < 2) {
-        fprintf(stderr, "Usage: %s <command>\n", av[0]);
-        return 1;
-    }
+//     char *cmd = av[1];
+//     char *path = getenv("PATH");
+//     char full_cmd[1024];
+//     int found = 0;
 
-    char *cmd = av[1];
-    char *path = getenv("PATH");
-    char full_cmd[1024];
-    int found = 0;
+//     if (path) {
+//         char *dir = strtok(path, ":");
+//         while (dir) {
+//             snprintf(full_cmd, sizeof(full_cmd), "%s/%s", dir, cmd);
+//             if (access(full_cmd, X_OK) == 0) {
+//                 found = 1;
+//                 printf("===cmd: %s\n==\n", full_cmd);
+//                 break;
+//             }
+//             dir = strtok(NULL, ":");
+//         }
+//     }
 
-    if (path) {
-        char *dir = strtok(path, ":");
-        while (dir) {
-            snprintf(full_cmd, sizeof(full_cmd), "%s/%s", dir, cmd);
-            if (access(full_cmd, X_OK) == 0) {
-                found = 1;
-                printf("===cmd: %s\n==\n", full_cmd);
-                break;
-            }
-            dir = strtok(NULL, ":");
-        }
-    }
+//     if (!found) {
+//         printf("ta (lwa)\n");
+//     }
 
-    if (!found) {
-        printf("ta (lwa)\n");
-    }
+//     return 0;
+// }
 
-    return 0;
-}
+
+//	use dup
+// int main ()
+// {
+// 	int file_desc = open("dup.txt", O_WRONLY | O_APPEND);
+
+// 	if (file_desc < 0)
+// 		printf("error \n");
+// 	int copy_desc = dup(file_desc);
+
+// 	write(copy_desc,"This will be output to the file named dup.txt\n", 46); 
+	
+// 	write(file_desc,"This will also be output to the file named dup.txt\n", 51); 
+// 	printf("file 1: %d\n", file_desc);
+// 	printf("file 1: %d\n", copy_desc);
+// }
+
+
+//	use dup2
+// int main ()
+// {
+// 	int file_desc = open("tricky.txt", O_WRONLY | O_APPEND);
+// 	int file_hi = open("dup.txt", O_WRONLY | O_APPEND);
+// 	int i = dup2(file_desc, 0);
+// 	if (i == -1)
+// 	{
+// 		perror("error");
+// 		return 1;
+// 	}
+	
+
+// 	printf("I will be printed in the file tricky.txt\n");
+// 	printf("tricky.txt: %d\n", file_desc);
+// 	printf("tricky.txt: %d\n", file_hi);
+// 	printf("i: %d\n", i);
+// }
