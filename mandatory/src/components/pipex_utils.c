@@ -14,44 +14,42 @@
 
 static	void	redirect_fd(int from_fd, int to_fd, const char *str)
 {
-    if (dup2(from_fd, to_fd) == -1)
-        error_and_exit((char *)str, 1);
-    close(from_fd);
+	if (dup2(from_fd, to_fd) == -1)
+		error_and_exit((char *)str, 1);
+	close(from_fd);
 }
 
-static void execute_cmd(char *cmd, char **env)
+static	void	execute_cmd(char *cmd, char **env)
 {
-    char **args;
-    char *full_path;
+	char	**args;
+	char	*full_path;
 
-    args = ft_split(cmd, ' ');
+	args = ft_split(cmd, ' ');
 	if (!args)
-        error_and_exit("ft_split failed\n", 1);
-
-    full_path = find_command_path(args[0], env);
+		error_and_exit("ft_split failed\n", 1);
+	full_path = find_command_path(args[0], env);
 	if (!full_path)
 	{
 		ft_free_string(args);
-        free(args);
-        error_and_exit("find_command_path failed\n", 1);
+		free(args);
+		error_and_exit("find_command_path failed\n", 1);
 	}
-
-    free(args[0]);
-    args[0] = full_path;
-    execve(args[0], args, NULL);
+	free(args[0]);
+	args[0] = full_path;
+	execve(args[0], args, NULL);
 	ft_free_string(args);
 	free(args);
-    error_and_exit("Execution failed\n", 1);
+	error_and_exit("Execution failed\n", 1);
 }
 
 static	void	child2(t_list data, char *cmd, int *end, char **env)
 {
-    pid_t	pid;
+	pid_t	pid;
 
-    pid = fork();
-    if (pid == 0)
+	pid = fork();
+	if (pid == 0)
 	{
-        close(end[1]);
+		close(end[1]);
 		redirect_fd(end[0], 0, "dup2 failed\n");
 		redirect_fd(data.fdout, 1, "dup2 failed\n");
 		execute_cmd(cmd, env);
@@ -62,16 +60,16 @@ static	void	child2(t_list data, char *cmd, int *end, char **env)
 
 static	void	child1(t_list data, char *cmd, int *end, char **env)
 {
-	pid_t pid;
+	pid_t	pid;
 
-    pid = fork();
-    if (pid == 0)
+	pid = fork();
+	if (pid == 0)
 	{
-        close(end[0]);
-        redirect_fd(data.fdin, 0, "dup2 failed\n");
+		close(end[0]);
+		redirect_fd(data.fdin, 0, "dup2 failed\n");
 		redirect_fd(end[1], 1, "dup2 failed\n");
-        execute_cmd(cmd, env);
-    }
+		execute_cmd(cmd, env);
+	}
 	else if (pid == -1)
 		perror("Could not create pipe  in child2 Hello again parent process!\n");
 }

@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:07:23 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/10 15:16:14 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/12 16:27:32 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,43 @@ static	char	*ft_strchr(const char *str, int search)
 	return (ft_memchr(str, search, ft_strlen(str) + 1));
 }
 
-char *ft_strtok(char *str, const char *delim)
+static char	*skip_delimiters(char *str, const char *delim)
 {
-    static char *next;
-    if (str != NULL)
-        next = str;
-    if (next == NULL)
-        return NULL;
+	while (*str && ft_strchr(delim, *str))
+		str++;
+	return (str);
+}
 
-    char *start = next;
-    while (*start && ft_strchr(delim, *start))
+static char	*find_token_end(char *str, const char *delim)
+{
+	while (*str && !ft_strchr(delim, *str))
+		str++;
+	return (str);
+}
+
+char	*ft_strtok(char *str, const char *delim)
+{
+	static char	*next;
+	char		*start;
+	char		*end;
+
+	if (str != NULL)
+		next = str;
+	if (next == NULL)
+		return (NULL);
+	start = skip_delimiters(next, delim);
+	if (*start == '\0')
 	{
-        start++;
-    }
-    if (*start == '\0')
+		next = NULL;
+		return (NULL);
+	}
+	end = find_token_end(start, delim);
+	if (*end != '\0')
 	{
-        next = NULL;
-        return NULL;
-    }
-    char *end = start;
-    while (*end && !ft_strchr(delim, *end))
-        end++;
-    if (*end)
-	{
-        *end = '\0';
-        next = end + 1;
-    }
+		*end = '\0';
+		next = end + 1;
+	}
 	else
-        next = NULL;
-    return start;
+		next = NULL;
+	return (start);
 }

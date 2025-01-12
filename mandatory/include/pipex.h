@@ -29,13 +29,7 @@ typedef struct s_stract
 	char	*outfile;
 	int		fdin;
 	int		fdout;
-} t_list;
-
-enum init {
-    LOW = 25,
-    MEDIUM = 50,
-    HIGH = 75
-};
+}	t_list;
 
 //	components/pipex_utils.c
 void	pipex(t_list data, char **av, char **env);
@@ -55,9 +49,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strtok(char *str, const char *delim);
-
-
-
 
 // void	execute_cmd(char *av, char **ev);
 // void	execute_help(char **cmd1, char **ev);

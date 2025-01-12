@@ -1,9 +1,0 @@
-total 40
--rw-r--r-- 1 iezzam 2024_khouribga  1053 Jan 11 16:58 Makefile
--rw-r--r-- 1 iezzam 2024_khouribga  1225 Jan 10 14:32 README.md
--rw-r--r-- 1 iezzam 2024_khouribga    13 Jan 10 16:04 file1.txt
--rw-r--r-- 1 iezzam 2024_khouribga     0 Jan 12 13:22 file2.tx
--rw-r--r-- 1 iezzam 2024_khouribga     7 Jan 12 13:22 file2.txt
-drwxr-xr-x 4 iezzam 2024_khouribga    62 Jan 12 13:13 mandatory
--rwxr-xr-x 1 iezzam 2024_khouribga 21720 Jan 12 13:22 pipex
-drwxr-xr-x 2 iezzam 2024_khouribga   233 Jan 12 13:12 public

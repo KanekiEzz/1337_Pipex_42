@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av, char **env)
 {
-	t_list data;
+	t_list	data;
 
 	if (ac != 5)
 		error_and_exit("USAGE: ./pipex infile cmd1 cmd2 outfile\n", 1);
@@ -31,7 +31,6 @@ int	main(int ac, char **av, char **env)
 		if (data.fdout == -1)
 			error_and_exit("error open no such file or directory\n", -1);
 		pipex(data, av, env);
-
 		close(data.fdin);
 		close(data.fdout);
 	}

@@ -12,9 +12,11 @@
 
 #include "../../include/pipex.h"
 
-void ft_free_string(char **str)
+void	ft_free_string(char **str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (str[i] != NULL)
 	{
 		free(str[i]);
