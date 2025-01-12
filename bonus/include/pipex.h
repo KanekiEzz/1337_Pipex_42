@@ -24,12 +24,12 @@
 typedef struct s_stract
 {
 	char	**cmd;
-	int		error;
 	char	*path;
 	char	*infile;
 	char	*outfile;
 	int		fdin;
 	int		fdout;
+	int		num_cmds;
 }	t_list;
 
 //	components/pipex_utils.c
@@ -50,4 +50,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strtok(char *str, const char *delim);
+
+
 #endif

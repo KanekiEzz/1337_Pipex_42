@@ -1,0 +1,141 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/09 11:52:38 by iezzam            #+#    #+#             */
+/*   Updated: 2025/01/09 11:53:11 by iezzam           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/pipex.h"
+
+static	void	redirect_fd(int from_fd, int to_fd, const char *str)
+{
+	if (dup2(from_fd, to_fd) == -1)
+		error_and_exit((char *)str, 1);
+	close(from_fd);
+}
+
+static	void	execute_cmd(char *cmd, char **env)
+{
+	char	**args;
+	char	*full_path;
+
+	args = ft_split(cmd, ' ');
+	if (!args)
+		error_and_exit("ft_split failed\n", 1);
+	full_path = find_command_path(args[0], env);
+	if (!full_path)
+	{
+		write(2, "command not found: ", 19);
+		write(2, args[0], ft_strlen(args[0]));
+		write(2, "\n", 1);
+		ft_free_string(args);
+		free(args);
+		exit(1);
+	}
+	free(args[0]);
+	args[0] = full_path;
+	execve(args[0], args, env);
+	ft_free_string(args);
+	free(args);
+	error_and_exit("Execution failed\n", 1);
+}
+
+static	void	child2(t_list data, char *cmd, int *end, char **env)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		close(end[1]);
+		redirect_fd(end[0], 0, 0);
+		redirect_fd(data.fdout, 1, 0);
+		execute_cmd(cmd, env);
+	}
+	else if (pid == -1)
+		return ;
+}
+
+static	void	child1(t_list data, char *cmd, int *end, char **env)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		close(end[0]);
+		redirect_fd(data.fdin, 0, 0);
+		redirect_fd(end[1], 1, 0);
+		execute_cmd(cmd, env);
+	}
+	else if (pid == -1)
+		return ;
+}
+
+void pipex(t_list data, char **av, char **env)
+{
+    int **pipes;
+    int i, num_cmds;
+
+    num_cmds = data.num_cmds;
+
+    pipes = malloc(sizeof(int *) * (num_cmds - 1));
+    if (!pipes)
+        error_and_exit("malloc failed\n", 1);
+
+    for (i = 0; i < num_cmds - 1; i++)
+    {
+        pipes[i] = malloc(sizeof(int) * 2);
+        if (!pipes[i] || pipe(pipes[i]) == -1)
+            error_and_exit("pipe error...\n", 14);
+    }
+
+    // Launch first command using child1
+    child1(data, av[2], pipes[0], env);
+
+    // Launch intermediate commands
+    for (i = 1; i < num_cmds - 1; i++)
+    {
+        pid_t pid = fork();
+        if (pid == 0)
+        {
+            // Redirect input and output
+            close(pipes[i - 1][1]);
+            redirect_fd(pipes[i - 1][0], 0, "Error redirecting input\n");
+            redirect_fd(pipes[i][1], 1, "Error redirecting output\n");
+
+            // Close unused pipes
+            for (int j = 0; j < num_cmds - 1; j++)
+            {
+                close(pipes[j][0]);
+                close(pipes[j][1]);
+            }
+
+            // Execute command
+            execute_cmd(av[i + 2], env);
+        }
+        else if (pid == -1)
+            error_and_exit("fork error...\n", 14);
+    }
+
+    // Launch last command using child2
+    child2(data, av[num_cmds + 1], pipes[num_cmds - 2], env);
+
+    // Close all pipes in the parent process
+    for (i = 0; i < num_cmds - 1; i++)
+    {
+        close(pipes[i][0]);
+        close(pipes[i][1]);
+        free(pipes[i]);
+    }
+    free(pipes);
+
+    // Wait for all child processes
+    while (wait(NULL) != -1)
+        ;
+}
