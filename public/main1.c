@@ -168,31 +168,70 @@
 // 		perror("error");
 // 		return 1;
 // 	}
-	
-
 // 	printf("I will be printed in the file tricky.txt\n");
 // 	printf("tricky.txt: %d\n", file_desc);
 // 	printf("tricky.txt: %d\n", file_hi);
 // 	printf("i: %d\n", i);
 // }
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <string.h>
 
-int main (int ac, char **av, char **env)
-{
-	(void)ac;
-	(void)av;
-	(void)env;
 
-	printf("Main Program started\n");
-	char *argv1[] = {"ls" , NULL};
-	char *envp[] = {"PATH=/bin:/usr/bin", NULL};
+//	execve
+// int main (int ac, char **av, char **env)
+// {
+// 	(void)ac;
+// 	(void)av;
+// 	(void)env;
 
-	if (execve("ls", argv1, env) == -1)
-		perror("Cloud not execve");
-	return 1;
+// 	printf("Main Program started\n");
+// 	char *argv1[] = {"ls" , NULL};
+// 	char *envp[] = {"PATH=/bin:/usr/bin", NULL};
 
-}
+// 	if (execve("ls", argv1, env) == -1)
+// 		perror("Cloud not execve");
+// 	return 1;
+// }
+
+//	---------access-------------
+
+// #include <string.h>
+
+// char	*ft_strdup(const char *str)
+// {
+// 	size_t	i;
+// 	char	*ptr;
+// 	size_t	len;
+
+// 	len = (strlen(str) + 1);
+// 	ptr = malloc(len * sizeof(char));
+// 	if (!ptr)
+// 		return (NULL);
+// 	i = 0;
+// 	while (str[i] != '\0')
+// 	{
+// 		ptr[i] = str[i];
+// 		i++;
+// 	}
+// 	ptr[i] = '\0';
+// 	return (ptr);
+// }
+
+// int main(int ac, char **av, char **env)
+// {
+// 	int i = 0;
+//     // const char *file = "/usr/bin/ls";
+    
+// 	// if (access(file, X_OK) == -1)
+// 	// 	perror("File does not exist or cannot be accessed");
+// 	// printf("%s", env[3]);
+// 	while (env[i] && strncmp(env[i], "PATH=", 5) != 0)
+// 		i++;
+// 	char *path = ft_strdup(env[i] + 5);
+// 	printf("%s\n", path);
+// 	char *dir = strtok(path, ":");
+// 	while (dir)
+// 	{
+// 		printf("=> %s\n", dir);
+// 		dir = strtok(NULL, ":");
+// 	}
+// 	return 0;
+// }
