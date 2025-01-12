@@ -1,8 +1,4 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <string.h>
+
 #include "../mandatory/include/pipex.h"
 
 // #define MSGSIZE 16
@@ -179,3 +175,24 @@
 // 	printf("tricky.txt: %d\n", file_hi);
 // 	printf("i: %d\n", i);
 // }
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <string.h>
+
+int main (int ac, char **av, char **env)
+{
+	(void)ac;
+	(void)av;
+	(void)env;
+
+	printf("Main Program started\n");
+	char *argv1[] = {"ls" , NULL};
+	char *envp[] = {"PATH=/bin:/usr/bin", NULL};
+
+	if (execve("ls", argv1, env) == -1)
+		perror("Cloud not execve");
+	return 1;
+
+}

@@ -38,7 +38,7 @@ static void execute_cmd(char *cmd, char **env)
 
     free(args[0]);
     args[0] = full_path;
-    execve(args[0], args, env);
+    execve(args[0], args, NULL);
 	ft_free_string(args);
 	free(args);
     error_and_exit("Execution failed\n", 1);
