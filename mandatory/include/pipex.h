@@ -24,6 +24,7 @@
 typedef struct s_stract
 {
 	char	**cmd;
+	int		error;
 	char	*path;
 	char	*infile;
 	char	*outfile;

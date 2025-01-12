@@ -30,13 +30,16 @@ static	void	execute_cmd(char *cmd, char **env)
 	full_path = find_command_path(args[0], env);
 	if (!full_path)
 	{
+		write(2, "command not found: ", 19);
+		write(2, args[0], ft_strlen(args[0]));
+		write(2, "\n", 1);
 		ft_free_string(args);
 		free(args);
-		error_and_exit("find_command_path failed\n", 1);
+		exit(1);
 	}
 	free(args[0]);
 	args[0] = full_path;
-	execve(args[0], args, NULL);
+	execve(args[0], args, env);
 	ft_free_string(args);
 	free(args);
 	error_and_exit("Execution failed\n", 1);
@@ -50,12 +53,12 @@ static	void	child2(t_list data, char *cmd, int *end, char **env)
 	if (pid == 0)
 	{
 		close(end[1]);
-		redirect_fd(end[0], 0, "dup2 failed\n");
-		redirect_fd(data.fdout, 1, "dup2 failed\n");
+		redirect_fd(end[0], 0, 0);
+		redirect_fd(data.fdout, 1, 0);
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
-		perror("Could not create pipe in child2 Hello again parent process!\n");
+		return ;
 }
 
 static	void	child1(t_list data, char *cmd, int *end, char **env)
@@ -66,12 +69,12 @@ static	void	child1(t_list data, char *cmd, int *end, char **env)
 	if (pid == 0)
 	{
 		close(end[0]);
-		redirect_fd(data.fdin, 0, "dup2 failed\n");
-		redirect_fd(end[1], 1, "dup2 failed\n");
+		redirect_fd(data.fdin, 0, 0);
+		redirect_fd(end[1], 1, 0);
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
-		perror("Could not create pipe  in child2 Hello again parent process!\n");
+		return ;
 }
 
 void	pipex(t_list data, char **av, char **env)
