@@ -79,16 +79,16 @@ static	void	child1(t_list data, char *cmd, int *WRpipe, char **env)
 
 void	pipex(t_list data, char **av, char **env)
 {
-	int	WRpipe[2];
+	int	_WRpipe[2];
 
-	if (pipe(WRpipe) == -1)
+	if (pipe(_WRpipe) == -1)
 		error_and_exit("pipe error...\n", 14);
-	child1(data, av[2], WRpipe, env);
+	child1(data, av[2], _WRpipe, env);
 	close(data.fdin);
-	child2(data, av[3], WRpipe, env);
+	child2(data, av[3], _WRpipe, env);
 	close(data.fdout);
-	close(WRpipe[0]);
-	close(WRpipe[1]);
+	close(_WRpipe[0]);
+	close(_WRpipe[1]);
 	while (wait(NULL) != -1)
 		;
 }
