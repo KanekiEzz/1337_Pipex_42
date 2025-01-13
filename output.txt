@@ -1,0 +1,9 @@
+bonus
+dyalna
+Makefile
+mandatory
+output.txt
+pipex
+public
+README.md
+t.ts

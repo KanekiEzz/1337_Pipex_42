@@ -45,15 +45,15 @@ static	void	execute_cmd(char *cmd, char **env)
 	error_and_exit("Execution failed\n", 1);
 }
 
-static	void	child2(t_list data, char *cmd, int *end, char **env)
+static	void	child2(t_list data, char *cmd, int *WRpipe, char **env)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		close(end[1]);
-		redirect_fd(end[0], 0, 0);
+		close(WRpipe[1]);
+		redirect_fd(WRpipe[0], 0, 0);
 		redirect_fd(data.fdout, 1, 0);
 		execute_cmd(cmd, env);
 	}
@@ -61,16 +61,16 @@ static	void	child2(t_list data, char *cmd, int *end, char **env)
 		return ;
 }
 
-static	void	child1(t_list data, char *cmd, int *end, char **env)
+static	void	child1(t_list data, char *cmd, int *WRpipe, char **env)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		close(end[0]);
+		close(WRpipe[0]);
 		redirect_fd(data.fdin, 0, 0);
-		redirect_fd(end[1], 1, 0);
+		redirect_fd(WRpipe[1], 1, 0);
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
@@ -79,16 +79,16 @@ static	void	child1(t_list data, char *cmd, int *end, char **env)
 
 void	pipex(t_list data, char **av, char **env)
 {
-	int	end[2];
+	int	WRpipe[2];
 
-	if (pipe(end) == -1)
+	if (pipe(WRpipe) == -1)
 		error_and_exit("pipe error...\n", 14);
-	child1(data, av[2], end, env);
+	child1(data, av[2], WRpipe, env);
 	close(data.fdin);
-	child2(data, av[3], end, env);
+	child2(data, av[3], WRpipe, env);
 	close(data.fdout);
-	close(end[0]);
-	close(end[1]);
+	close(WRpipe[0]);
+	close(WRpipe[1]);
 	while (wait(NULL) != -1)
 		;
 }

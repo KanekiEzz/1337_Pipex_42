@@ -77,65 +77,72 @@ static	void	child1(t_list data, char *cmd, int *end, char **env)
 		return ;
 }
 
+static	void	close_all_pipe(int **pipes, int num_cmd)
+{
+	int	j;
+
+	if (!pipes)
+		return ;
+	j = 0;
+	while (j < num_cmd - 1)
+    {
+		close(pipes[j][0]);
+		close(pipes[j][1]);
+		j++;
+	}
+} 
+
+static	void	child_intermediate(t_list data, char **av, int **pipes, char **env)
+{
+	int num_cmds;
+	int	i;
+
+	i = 1;
+	num_cmds = data.num_cmds;
+	while (i < num_cmds - 1)
+    {
+        pid_t pid = fork();
+        if (pid == 0)
+        {
+            close(pipes[i - 1][1]);
+            redirect_fd(pipes[i - 1][0], 0, "Error redirecting input\n");
+            redirect_fd(pipes[i][1], 1, "Error redirecting output\n");
+
+			close_all_pipe(pipes, num_cmds);
+            execute_cmd(av[i + 2], env);
+        }
+        else if (pid == -1)
+            error_and_exit("fork error...\n", 14);
+		i++;
+	}
+}
+
+
 void pipex(t_list data, char **av, char **env)
 {
     int **pipes;
     int i, num_cmds;
 
+	i = 0;
     num_cmds = data.num_cmds;
-
     pipes = malloc(sizeof(int *) * (num_cmds - 1));
     if (!pipes)
-        error_and_exit("malloc failed\n", 1);
-
-    for (i = 0; i < num_cmds - 1; i++)
+        error_and_exit(0, -1);
+    while (i < num_cmds - 1)
     {
         pipes[i] = malloc(sizeof(int) * 2);
         if (!pipes[i] || pipe(pipes[i]) == -1)
-            error_and_exit("pipe error...\n", 14);
-    }
-
-    // Launch first command using child1
+            error_and_exit("pipe error...\n", -1);
+		i++;
+	}
     child1(data, av[2], pipes[0], env);
-
-    // Launch intermediate commands
-    for (i = 1; i < num_cmds - 1; i++)
-    {
-        pid_t pid = fork();
-        if (pid == 0)
-        {
-            // Redirect input and output
-            close(pipes[i - 1][1]);
-            redirect_fd(pipes[i - 1][0], 0, "Error redirecting input\n");
-            redirect_fd(pipes[i][1], 1, "Error redirecting output\n");
-
-            // Close unused pipes
-            for (int j = 0; j < num_cmds - 1; j++)
-            {
-                close(pipes[j][0]);
-                close(pipes[j][1]);
-            }
-
-            // Execute command
-            execute_cmd(av[i + 2], env);
-        }
-        else if (pid == -1)
-            error_and_exit("fork error...\n", 14);
-    }
-
-    // Launch last command using child2
+	child_intermediate(data, av, pipes, env);
     child2(data, av[num_cmds + 1], pipes[num_cmds - 2], env);
-
-    // Close all pipes in the parent process
-    for (i = 0; i < num_cmds - 1; i++)
-    {
-        close(pipes[i][0]);
-        close(pipes[i][1]);
-        free(pipes[i]);
-    }
+    close_all_pipe(pipes, num_cmds);
+	i = 0;
+	while (i < num_cmds - 1)
+		free(pipes[i++]);
     free(pipes);
-
-    // Wait for all child processes
     while (wait(NULL) != -1)
         ;
 }

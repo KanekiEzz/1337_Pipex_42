@@ -2,6 +2,7 @@ NAME = pipex
 NAMEB = pipexl
 CC = cc
 FLAGS = -Wall -Wextra -Werror
+# -fsanitize=address -g
 INC = ./mandatory/include/pipex.h
 INCB = ./bonus/include/pipex.h
 RM = rm -f
