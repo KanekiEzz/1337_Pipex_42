@@ -1,0 +1,16 @@
+total 64
+drwxr-xr-x 7 iezzam 2024_khouribga   196 Jan 13 18:12 .
+drwxr-xr-x 4 iezzam 2024_khouribga    38 Jan 12 13:02 ..
+drwxr-xr-x 4 iezzam 2024_khouribga    62 Jan 13 18:12 bonus
+-rw-r--r-- 1 iezzam 2024_khouribga   780 Jan 13 18:07 dyalna
+drwxr-xr-x 8 iezzam 2024_khouribga   220 Jan 13 18:11 .git
+-rw-r--r-- 1 iezzam 2024_khouribga  1697 Jan 13 18:12 Makefile
+drwxr-xr-x 4 iezzam 2024_khouribga    62 Jan 13 18:12 mandatory
+-rw-r--r-- 1 iezzam 2024_khouribga     0 Jan 13 18:12 outfile
+-rw-r--r-- 1 iezzam 2024_khouribga    71 Jan 13 12:45 output.txt
+-rwxr-xr-x 1 iezzam 2024_khouribga 21880 Jan 13 18:12 pipex
+-rwxr-xr-x 1 iezzam 2024_khouribga 22000 Jan 13 18:12 pipexl
+drwxr-xr-x 2 iezzam 2024_khouribga   220 Jan 12 15:50 public
+-rw-r--r-- 1 iezzam 2024_khouribga  1225 Jan 10 14:32 README.md
+-rw-r--r-- 1 iezzam 2024_khouribga     0 Jan 13 12:35 t.ts
+drwxr-xr-x 2 iezzam 2024_khouribga    27 Jan 13 17:14 .vscode
