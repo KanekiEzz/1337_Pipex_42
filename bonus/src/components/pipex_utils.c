@@ -124,6 +124,21 @@ static	void	child_intermediate(t_list data, char **av, int **pipes, char **env)
 	}
 }
 
+void	pipex_herdoc(t_list data, char **av, char **env)
+{
+	int	_WRpipe[2];
+
+	if (pipe(_WRpipe) == -1)
+		error_and_exit("pipe error...\n", 14);
+	child1(data, av[3], _WRpipe, env);
+	close(data.fdin);
+	child2(data, av[5], _WRpipe, env);
+	close(data.fdout);
+	close(_WRpipe[0]);
+	close(_WRpipe[1]);
+	while (wait(NULL) != -1)
+		;
+}
 
 void pipex(t_list data, char **av, char **env)
 {

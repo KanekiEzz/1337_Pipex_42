@@ -34,6 +34,7 @@ typedef struct s_stract
 
 //	components/pipex_utils.c
 void	pipex(t_list data, char **av, char **env);
+void	pipex_herdoc(t_list data, char **av, char **env);
 
 //	find_command.c
 char	*find_command_path(char *cmd, char **env);

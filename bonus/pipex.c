@@ -54,12 +54,11 @@ int	main(int ac, char **av, char **env)
 		data.fdout = open(data.outfile, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (data.fdout == -1)
             error_and_exit("Error opening output file\n", 1);
-        data.num_cmds = ac - 3;
 
         fd = malloc(sizeof(int) * 2);
         handle_here_doc(av[2], fd);
 
-        pipex(data, av, env);
+        pipex_herdoc(data, av, env);
 
         close(data.fdout);
         close(fd[0]);
