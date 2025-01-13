@@ -46,8 +46,28 @@ int pipe(int fds[2]);
 ```
 
 Parameters :
-```fd[0] will be the fd(file descriptor) for the 
+```
+fd[0] will be the fd(file descriptor) for the 
 read end of pipe.
 fd[1] will be the fd for the write end of pipe.
 Returns : 0 on Success.
--1 on error.```
+-1 on error.
+```
+
+```
+ env -i bash
+```
+```
+./pipexl /dev/stdin "echo hello" "echo hello" /dev/stdout
+```
+```
+./pipexl /dev/stdin pwd pwd /dev/stdout
+```
+
+```
+./pipexl /dev/stdin ls /bin/pwd /dev/stdout
+```
+#### result:
+
+	command not found: ls
+	/home/iezzam/kaneki/1337_Pipex_42
