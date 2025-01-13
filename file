@@ -1,0 +1,13 @@
+total 40
+drwxr-xr-x 6 iezzam 2024_khouribga   147 Jan 13 19:42 .
+drwxr-xr-x 4 iezzam 2024_khouribga    38 Jan 12 13:02 ..
+drwxr-xr-x 4 iezzam 2024_khouribga    62 Jan 13 19:42 bonus
+-rw-r--r-- 1 iezzam 2024_khouribga    18 Jan 13 19:37 cat
+-rw-r--r-- 1 iezzam 2024_khouribga     0 Jan 13 19:42 file
+drwxr-xr-x 8 iezzam 2024_khouribga   220 Jan 13 19:34 .git
+-rw-r--r-- 1 iezzam 2024_khouribga  1699 Jan 13 18:16 Makefile
+drwxr-xr-x 4 iezzam 2024_khouribga    47 Jan 13 19:24 mandatory
+-rw-r--r-- 1 iezzam 2024_khouribga    24 Jan 13 19:41 outfile
+-rwxr-xr-x 1 iezzam 2024_khouribga 22000 Jan 13 19:42 pipexl
+drwxr-xr-x 2 iezzam 2024_khouribga   220 Jan 12 15:50 public
+-rw-r--r-- 1 iezzam 2024_khouribga  1506 Jan 13 19:32 README.md
