@@ -140,23 +140,20 @@ void handle_here_doc(char *limiter, int *fd)
         if (!line)
             break;
 
-        // Strip newline from the line for proper comparison
         if (line[ft_strlen(line) - 1] == '\n')
             line[ft_strlen(line) - 1] = '\0';
 
-        // Break if limiter is reached
         if (strcmp(line, limiter) == 0)
         {
             free(line);
             break;
         }
 
-        // Write the line into the pipe
         write(fd[1], line, ft_strlen(line));
-        write(fd[1], "\n", 1); // Restore the newline for heredoc content
+        write(fd[1], "\n", 1);
         free(line);
     }
-    close(fd[1]); // Close write end of the pipe
+    close(fd[1]);
 }
 
 void pipex_herdoc(t_list data, char **av, char **env)
