@@ -33,6 +33,8 @@ SRCSB =	./bonus/pipex.c \
 		./bonus/src/lib/ft_strlen.c \
 		./bonus/src/lib/ft_strncmp.c \
 		./bonus/src/lib/ft_strtok.c \
+		./bonus/get_next_line/get_next_line.c \
+		./bonus/get_next_line/get_next_line_utils.c \
 
 OBJS = $(SRCS:.c=.o)
 OBJSB = $(SRCSB:.c=.o)

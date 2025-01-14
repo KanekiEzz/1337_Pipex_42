@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 15:07:23 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/12 16:27:32 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/14 09:41:32 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static	void	*ft_memchr(const void *s, int c, size_t n)
 	return (NULL);
 }
 
-static	char	*ft_strchr(const char *str, int search)
+char	*ft_strchr(const char *str, int search)
 {
 	return (ft_memchr(str, search, ft_strlen(str) + 1));
 }
