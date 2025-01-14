@@ -52,10 +52,10 @@ ${NAME}: ${OBJS}
 	${CC} ${FLAGS} ${OBJS} -o ${NAME}
 
 ${NAMEB}: ${OBJSB}
-	@printf "$(GREEN)Building: ${NAME}$(RESET)\n"
+	@printf "$(GREEN)Building: ${NAMEB}$(RESET)\n"
 	${CC} ${FLAGS} ${OBJSB} -o ${NAMEB}
 
-all: ${NAME}
+all: ${NAME} ${NAMEB}
 
 bonus: ${NAMEB}
 
