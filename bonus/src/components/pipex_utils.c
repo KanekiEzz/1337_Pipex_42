@@ -125,12 +125,10 @@ static	void	child_intermediate(t_list data, char **av, int **pipes, char **env)
 	}
 }
 
-#include <string.h>
 void handle_here_doc(char *limiter, int *fd)
 {
     char *line;
 	int flag = 1;
-    line = get_next_line(0);
     if (pipe(fd) == -1)
         error_and_exit("Pipe creation failed for here_doc\n", 1);
 
@@ -138,11 +136,11 @@ void handle_here_doc(char *limiter, int *fd)
     {
 		if (flag == 1)
 		{
-        	write(1, "heredoc> ", 9);
+				write(1, "heredoc> ", 9);
+				line = get_next_line(0);
 		}
 		if (line)
 		{
-        	line = get_next_line(0);
 			flag = 1;
 		}
 		if (!line)
@@ -164,7 +162,6 @@ void handle_here_doc(char *limiter, int *fd)
         write(fd[1], "\n", 1);
         free(line);
     }
-
     close(fd[1]);
 }
 // void handle_here_doc(char *limiter, int *fd)
