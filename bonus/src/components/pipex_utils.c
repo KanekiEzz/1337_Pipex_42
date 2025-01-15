@@ -125,54 +125,12 @@ static	void	child_intermediate(t_list data, char **av, int **pipes, char **env)
 	}
 }
 
-// void handle_here_doc(char *limiter, int *fd)
-// {
-//     char *line;
-// 	int flag = 1;
-//     if (pipe(fd) == -1)
-//         error_and_exit("Pipe creation failed for here_doc\n", 1);
-
-//     while (1)
-//     {
-// 		if (flag == 1)
-// 		{
-// 				write(1, "heredoc> ", 9);
-// 				line = get_next_line(0);
-// 		}
-// 		if (line)
-// 		{
-// 			flag = 1;
-// 		}
-// 		if (!line)
-//         {
-// 			flag = 0;
-//             continue ;
-//         }
-
-//         if (line[ft_strlen(line) - 1] == '\n')
-//             line[ft_strlen(line) - 1] = '\0';
-
-//         if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-//         {
-//             free(line);
-//             break;
-//         }
-
-//         write(fd[1], line, ft_strlen(line));
-//         write(fd[1], "\n", 1);
-//         free(line);
-//     }
-//     close(fd[1]);
-// }
-
-
-void handle_here_doc(char *limiter, int *fd)
+void	handle_here_doc(char *limiter, int *fd)
 {
-    char *line;
+	char	*line;
 
     if (pipe(fd) == -1)
         error_and_exit("Pipe creation failed for here_doc\n", 1);
-
     while (1)
     {
         write(1, "heredoc> ", 9);
@@ -180,8 +138,6 @@ void handle_here_doc(char *limiter, int *fd)
 
         if (!line)
 			break ;
-		// while (!strchr(line, '\n'))
-			// line = ft_strjoin(line, get_next_line(0));
 		if (ft_strncmp(line, limiter, ft_strlen(line) - 1) == 0)
 		{
 			free(line);
