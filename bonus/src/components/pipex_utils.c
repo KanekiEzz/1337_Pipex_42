@@ -175,28 +175,27 @@ void handle_here_doc(char *limiter, int *fd)
 
     while (1)
     {
-        write(1, "here_doc> ", 10);
-		while (!(line = get_next_line(0)))
-			continue ; 
+        write(1, "heredoc> ", 9);
         line = get_next_line(0);
-		while (!line)
-        {
-			if ((line = get_next_line(0)))
-				break;
-        }
+
+        if (!line)
+			break ;
+		// while (!strchr(line, '\n'))
+			// line = ft_strjoin(line, get_next_line(0));
 		if (ft_strncmp(line, limiter, ft_strlen(line) - 1) == 0)
 		{
 			free(line);
 			break;
 		}
-		// if (line[ft_strlen(line) - 1] == '\n')
-		// 	line[ft_strlen(line) - 1] = '\0';
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
 		write(fd[1], line, ft_strlen(line));
-		// write(fd[1], "\n", 1);
+		write(fd[1], "\n", 1);
 		free(line);
     }
     close(fd[1]);
 }
+
 
 void pipex_herdoc(t_list data, char **av, char **env)
 {
