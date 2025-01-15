@@ -13,14 +13,14 @@
 
 #include "../../include/pipex.h"
 
-static	void	redirect_fd(int from_fd, int to_fd, const char *str)
+void	redirect_fd(int from_fd, int to_fd, const char *str)
 {
 	if (dup2(from_fd, to_fd) == -1)
 		error_and_exit((char *)str, 1);
     close(from_fd);
 }
 
-static	void	execute_cmd(char *cmd, char **env)
+void	execute_cmd(char *cmd, char **env)
 {
 	char	**args;
 	char	*full_path;
@@ -46,39 +46,7 @@ static	void	execute_cmd(char *cmd, char **env)
 	error_and_exit("Execution failed\n", 1);
 }
 
-static	void	child2(t_list data, char *cmd, int *end, char **env)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		close(end[1]);
-		redirect_fd(end[0], 0, 0);
-		redirect_fd(data.fdout, 1, 0);
-		execute_cmd(cmd, env);
-	}
-	else if (pid == -1)
-		return ;
-}
-
-static	void	child1(t_list data, char *cmd, int *end, char **env)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		close(end[0]);
-		redirect_fd(data.fdin, 0, 0);
-		redirect_fd(end[1], 1, 0);
-		execute_cmd(cmd, env);
-	}
-	else if (pid == -1)
-		return ;
-}
-
-static	void	close_all_pipe(int **pipes, int num_cmd)
+void	close_all_pipe(int **pipes, int num_cmd)
 {
 	int	j;
 
@@ -93,100 +61,12 @@ static	void	close_all_pipe(int **pipes, int num_cmd)
 	}
 }
 
-static	void	free_all_pipe(int **pipes, int i)
+void	free_all_pipe(int **pipes, int i)
 {
     while (--i >= 0)
         free(pipes[i]);
     free(pipes);
 } 
-
-static	void	child_intermediate(t_list data, char **av, int **pipes, char **env)
-{
-	int num_cmds;
-	int	i;
-
-	i = 1;
-	num_cmds = data.num_cmds;
-	while (i < num_cmds - 1)
-    {
-        pid_t pid = fork();
-        if (pid == 0)
-        {
-            close(pipes[i - 1][1]);
-            redirect_fd(pipes[i - 1][0], 0, "Error redirecting input\n");
-            redirect_fd(pipes[i][1], 1, "Error redirecting output\n");
-
-			close_all_pipe(pipes, num_cmds);
-            execute_cmd(av[i + 2], env);
-        }
-        else if (pid == -1)
-            error_and_exit("fork error...\n", 14);
-		i++;
-	}
-}
-
-void	handle_here_doc(char *limiter, int *fd)
-{
-	char	*line;
-
-    if (pipe(fd) == -1)
-        error_and_exit("Pipe creation failed for here_doc\n", 1);
-    while (1)
-    {
-        write(1, "heredoc> ", 9);
-        line = get_next_line(0);
-
-        if (!line)
-			break ;
-		if (ft_strncmp(line, limiter, ft_strlen(line) - 1) == 0)
-		{
-			free(line);
-			break;
-		}
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		write(fd[1], line, ft_strlen(line));
-		write(fd[1], "\n", 1);
-		free(line);
-    }
-    close(fd[1]);
-}
-
-
-void pipex_herdoc(t_list data, char **av, char **env)
-{
-    int heredoc_pipe[2];
-    int cmd_pipe[2];
-
-    handle_here_doc(av[2], heredoc_pipe);
-
-    if (pipe(cmd_pipe) == -1)
-        error_and_exit("Pipe creation failed\n", 1);
-
-    pid_t pid1 = fork();
-    if (pid1 == 0)
-    {
-        close(heredoc_pipe[1]);
-        redirect_fd(heredoc_pipe[0], 0, "Error redirecting heredoc input\n");
-        redirect_fd(cmd_pipe[1], 1, "Error redirecting output\n");
-        close(cmd_pipe[0]);
-        execute_cmd(av[3], env);
-    }
-
-    close(heredoc_pipe[0]);
-    close(cmd_pipe[1]);
-    pid_t pid2 = fork();
-    if (pid2 == 0)
-    {
-        redirect_fd(cmd_pipe[0], 0, "Error redirecting input\n");
-        redirect_fd(data.fdout, 1, "Error redirecting output\n");
-        execute_cmd(av[4], env);
-    }
-    close(cmd_pipe[0]);
-    close(data.fdout);
-    while (wait(NULL) != -1)
-        ;
-}
 
 void pipex(t_list data, char **av, char **env)
 {

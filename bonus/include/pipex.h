@@ -41,14 +41,33 @@ typedef struct s_stract
 //	components/pipex_utils.c
 void	pipex(t_list data, char **av, char **env);
 void	pipex_herdoc(t_list data, char **av, char **env);
+void	redirect_fd(int from_fd, int to_fd, const char *str);
+void	execute_cmd(char *cmd, char **env);
+void	close_all_pipe(int **pipes, int num_cmd);
+void	free_all_pipe(int **pipes, int i);
 
-//	find_command.c
+
+
+
+
+//	components/find_command.c
 char	*find_command_path(char *cmd, char **env);
 
 //	components/error_handling.c
 void	error_and_exit(char *str, int exit);
 void	close_fd(int fd, char *msg);
 void	ft_free_string(char **str);
+
+//	components/creat_child.c
+void	child2(t_list data, char *cmd, int *end, char **env);
+void	child1(t_list data, char *cmd, int *end, char **env);
+void	child_intermediate(t_list data, char **av, int **pipes, char **env);
+
+
+//	components/her_doc.c
+void	handle_here_doc(char *limiter, int *fd);
+void	pipex_herdoc(t_list data, char **av, char **env);
+
 
 //	lib/
 char	**ft_split(char const *s, char c);

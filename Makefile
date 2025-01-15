@@ -24,8 +24,10 @@ SRCS =	./mandatory/pipex.c \
 		./mandatory/src/lib/ft_strtok.c \
 
 SRCSB =	./bonus/pipex.c \
+		./bonus/src/components/creat_child.c \
 		./bonus/src/components/error_handling.c \
 		./bonus/src/components/find_command_path.c \
+		./bonus/src/components/her_doc.c \
 		./bonus/src/components/pipex_utils.c \
 		./bonus/src/lib/ft_split.c \
 		./bonus/src/lib/ft_strdup.c \
