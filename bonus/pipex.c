@@ -12,6 +12,27 @@
 
 #include "include/pipex.h"
 
+static	void	handel_no_hirdoc(int ac, char **av, char **env)
+{
+	t_list data;
+
+	data.infile = av[1];
+	data.fdin = open(av[1], O_RDONLY, 0466);
+	if (data.fdin == -1)
+		(write(2, "error open no such file or directory\n", 37),
+				write(2, av[1], ft_strlen(av[1])),
+						write(2, "\n", 1), data.fdin = STDERR_FILENO);
+	data.outfile = av[ac - 1];
+	data.fdout = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (data.fdout == -1)
+		(close(data.fdin), error_and_exit("Error opening output file\n", 1));
+	data.num_cmds = ac - 3;
+	pipex(data, av, env);
+	if (data.fdin >= 0)
+		close(data.fdin);
+	if (data.fdout >= 0)
+		close(data.fdout);
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -31,23 +52,6 @@ int	main(int ac, char **av, char **env)
         close(data.fdout);
 	}
 	else if (ac >= 5)
-	{
-		data.infile = av[1];
-		data.fdin = open(av[1], O_RDONLY, 0466);
-		if (data.fdin == -1)
-            (write(2, "error open no such file or directory\n", 37),
-					write(2, av[1], ft_strlen(av[1])),
-							write(2, "\n", 1), data.fdin = STDERR_FILENO);
-		data.outfile = av[ac - 1];
-		data.fdout = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
-		if (data.fdout == -1)
-			(close(data.fdin), error_and_exit("Error opening output file\n", 1));
-		data.num_cmds = ac - 3;
-		pipex(data, av, env);
-		if (data.fdin >= 0)
-			close(data.fdin);
-		if (data.fdout >= 0)
-			close(data.fdout);
-	}
+		handel_no_hirdoc(ac, av, env);
 	return (0);
 }

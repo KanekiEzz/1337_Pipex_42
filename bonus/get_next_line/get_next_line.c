@@ -6,12 +6,11 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 09:35:56 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/15 16:11:30 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/15 16:25:48 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
-
 
 static void	ft_free(void **ptr)
 {
@@ -112,7 +111,6 @@ char	*get_next_line(int fd)
 	int			read_line;
 
 	read_line = 0;
-	// if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE >= INT_MAX || BUFFER_SIZE <= 0)
 	if (fd < 0 || BUFFER_SIZE >= INT_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc((size_t)BUFFER_SIZE + 1);

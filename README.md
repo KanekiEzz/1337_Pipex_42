@@ -67,6 +67,12 @@ Returns : 0 on Success.
 ```
 ./pipexl /dev/stdin ls /bin/pwd /dev/stdout
 ```
+
+```
+valgrind ./pipexl Makefile cat "cat Makefile" cat ls "/bin/ls -la" /bin/ls/cat  /dev/stdout
+```
+
+
 #### result:
 
 	command not found: ls
