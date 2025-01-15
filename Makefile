@@ -1,5 +1,5 @@
 NAME = pipex
-NAMEB = pipexl
+NAMEB = pipex_bonus
 CC = cc
 FLAGS = -Wall -Wextra -Werror
 #  -fsanitize=address -g

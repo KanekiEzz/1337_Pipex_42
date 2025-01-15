@@ -25,7 +25,7 @@ int	main(int ac, char **av, char **env)
 		data.infile = av[1];
 		data.fdin = open(av[1], O_RDONLY, 0466);
 		if (data.fdin == -1)
-			(write(2, "error open no such file or directory\n", 37),
+			(write(2, "error open no such file or directory", 37),
 				write(2, av[1], ft_strlen(av[1])),
 				write(2, "\n", 1), data.fdin = STDERR_FILENO);
 		data.outfile = av[4];

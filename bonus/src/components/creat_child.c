@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:52:10 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/15 16:52:46 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/15 17:45:28 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,25 @@ void	child1(t_list data, char *cmd, int *end, char **env)
 
 void	child_intermediate(t_list data, char **av, int **pipes, char **env)
 {
-	int num_cmds;
-	int	i;
+	int		num_cmds;
+	int		i;
+	pid_t	pid;
 
 	i = 1;
 	num_cmds = data.num_cmds;
 	while (i < num_cmds - 1)
-    {
-        pid_t pid = fork();
-        if (pid == 0)
-        {
-            close(pipes[i - 1][1]);
-            redirect_fd(pipes[i - 1][0], 0, "Error redirecting input\n");
-            redirect_fd(pipes[i][1], 1, "Error redirecting output\n");
-
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			close(pipes[i - 1][1]);
+			redirect_fd(pipes[i - 1][0], 0, "Error redirecting input\n");
+			redirect_fd(pipes[i][1], 1, "Error redirecting output\n");
 			close_all_pipe(pipes, num_cmds);
-            execute_cmd(av[i + 2], env);
-        }
-        else if (pid == -1)
-            error_and_exit("fork error...\n", 14);
+			execute_cmd(av[i + 2], env);
+		}
+		else if (pid == -1)
+			error_and_exit("fork error...\n", 14);
 		i++;
 	}
 }

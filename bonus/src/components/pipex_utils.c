@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -17,7 +16,7 @@ void	redirect_fd(int from_fd, int to_fd, const char *str)
 {
 	if (dup2(from_fd, to_fd) == -1)
 		error_and_exit((char *)str, 1);
-    close(from_fd);
+	close(from_fd);
 }
 
 void	execute_cmd(char *cmd, char **env)
@@ -54,7 +53,7 @@ void	close_all_pipe(int **pipes, int num_cmd)
 		return ;
 	j = 0;
 	while (j < num_cmd - 1)
-    {
+	{
 		close(pipes[j][0]);
 		close(pipes[j][1]);
 		j++;
@@ -63,33 +62,35 @@ void	close_all_pipe(int **pipes, int num_cmd)
 
 void	free_all_pipe(int **pipes, int i)
 {
-    while (--i >= 0)
-        free(pipes[i]);
-    free(pipes);
-} 
+	while (--i >= 0)
+		free(pipes[i]);
+	free(pipes);
+}
 
-void pipex(t_list data, char **av, char **env)
+void	pipex(t_list data, char **av, char **env)
 {
-    int **pipes;
-    int i, num_cmds;
+	int		**pipes;
+	int		i;
+	int		num_cmds;
 
 	i = 0;
-    num_cmds = data.num_cmds;
-    pipes = malloc(sizeof(int *) * (num_cmds - 1));
-    if (!pipes)
-        error_and_exit("Pipe allocation failed\n", 1);
-    while (i < num_cmds - 1)
-    {
-        pipes[i] = malloc(sizeof(int) * 2);
+	num_cmds = data.num_cmds;
+	pipes = malloc(sizeof(int *) * (num_cmds - 1));
+	if (!pipes)
+		error_and_exit("Pipe allocation failed\n", 1);
+	while (i < num_cmds - 1)
+	{
+		pipes[i] = malloc(sizeof(int) * 2);
 		if (!pipes[i] || pipe(pipes[i]) == -1)
-            (free_all_pipe(pipes, i), error_and_exit("Pipe creation failed\n", 1));
+			(free_all_pipe(pipes, i),
+				error_and_exit("Pipe creation failed\n", 1));
 		i++;
 	}
-    child1(data, av[2], pipes[0], env);
+	child1(data, av[2], pipes[0], env);
 	child_intermediate(data, av, pipes, env);
-    child2(data, av[num_cmds + 1], pipes[num_cmds - 2], env);
-    close_all_pipe(pipes, num_cmds);
+	child2(data, av[num_cmds + 1], pipes[num_cmds - 2], env);
+	close_all_pipe(pipes, num_cmds);
 	free_all_pipe(pipes, num_cmds - 1);
-    while (wait(NULL) != -1)
-        ;
+	while (wait(NULL) != -1)
+		;
 }
