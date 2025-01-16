@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 16:35:28 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/15 16:55:19 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/16 17:36:18 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ char	*find_command_path(char *cmd, char **env)
 	char	*path;
 	char	*result;
 
-	if (access(cmd, X_OK) == 0)
+	if (ft_strncmp(cmd, "./", 2) == 0)
+		return (NULL);
+	if (cmd[0] == '/' && access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
 	path = get_path_variable(env);
 	if (!path)
