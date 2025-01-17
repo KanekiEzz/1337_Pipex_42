@@ -83,8 +83,32 @@ Returns : 0 on Success.
 valgrind ./pipexl Makefile cat "cat Makefile" cat ls "/bin/ls -la" /bin/ls/cat  /dev/stdout
 ```
 
+```
+<  /dev/stdin ff | ../../../../../../usr/bin/ls | cat Makefile > /dev/stdout
+```
+
+```
+./pipex_bonus /dev/stdin "ff" "../../../../../../usr/bin/ls" "cat Makefile" /dev/stdout
+```
 
 #### result:
 
 	command not found: ls
 	/home/iezzam/kaneki/1337_Pipex_42
+
+
+
+```
+while true; do lsof -p 527654; sleep 1; clear; done
+ps aux | grep pipex
+lsof -p number
+```
+
+```
+  ░▒▓ ✔      while true                                   
+do
+cclean
+sleep 2
+clear
+done
+```
