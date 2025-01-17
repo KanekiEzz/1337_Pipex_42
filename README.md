@@ -1,3 +1,14 @@
+
+Check if arguments start with either "/" or "./"
+if it does skip the path access check concatenation part
+if not check it
+program should output same output as its counterpart in shell
+< infile cmd1 | cmd2 > outfile
+./pipex infile "cmd1" "cmd2" outfile
+should behave exactly the same
+/ls		=> no such file or directory
+./ls	=> no such file or directory
+
 # Calculate the number of times hello is printed.
 ```
 #include <stdio.h>
