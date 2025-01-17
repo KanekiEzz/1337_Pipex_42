@@ -42,7 +42,10 @@ static	void	execute_cmd(char *cmd, char **env)
 	execve(args[0], args, env);
 	ft_free_string(args);
 	free(args);
-	error_and_exit("Execution failed\n", 1);
+	write(2, "command not found: ", 19);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, "\n", 1);
+	exit(1);
 }
 
 static	void	child2(t_list data, char *cmd, int *wr_pipe, char **env)
@@ -53,12 +56,17 @@ static	void	child2(t_list data, char *cmd, int *wr_pipe, char **env)
 	if (pid == 0)
 	{
 		close(wr_pipe[1]);
-		redirect_fd(wr_pipe[0], 0, 0);
-		redirect_fd(data.fdout, 1, 0);
+		redirect_fd(wr_pipe[0], 0, "dup2 failed\n");
+		redirect_fd(data.fdout, 1, "dup2 failed\n");
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
-		return ;
+	{
+		close(wr_pipe[0]);
+		close(wr_pipe[1]);
+		close_files(&data);
+		error_and_exit("fork failed\n", 1);
+	}
 }
 
 static	void	child1(t_list data, char *cmd, int *wr_pipe, char **env)
@@ -74,15 +82,22 @@ static	void	child1(t_list data, char *cmd, int *wr_pipe, char **env)
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
-		return ;
+	{
+		close(wr_pipe[0]);
+		close(wr_pipe[1]);
+		close_files(&data);
+		error_and_exit("fork failed\n", 1);
+	}
 }
 
 void	pipex(t_list data, char **av, char **env)
 {
-	int	wr_pipe[2];
+	int		wr_pipe[2];
+	t_list	file;
 
 	if (pipe(wr_pipe) == -1)
-		error_and_exit("pipe error...\n", 14);
+		(close_files(&data),
+			error_and_exit("pipe error...\n", 1));
 	child1(data, av[2], wr_pipe, env);
 	close(data.fdin);
 	child2(data, av[3], wr_pipe, env);
