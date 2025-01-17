@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:52:10 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/16 17:37:42 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/16 18:28:22 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	child_intermediate(t_list data, char **av, int **pipes, char **env)
 	while (i < num_cmds - 1)
 	{
 		pid = fork();
-		printf("===i: %d\tid: %d\n", i, pid);
 		if (pid == 0)
 		{
 			close(pipes[i - 1][1]);

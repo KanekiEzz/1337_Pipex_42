@@ -39,8 +39,6 @@ static	void	execute_cmd(char *cmd, char **env)
 	}
 	free(args[0]);
 	args[0] = full_path;
-	printf("full_path: %s\n", full_path);
-	printf("args[0]: %s\n", args[0]);
 	execve(args[0], args, env);
 	ft_free_string(args);
 	free(args);

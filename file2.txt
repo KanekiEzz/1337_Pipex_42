@@ -1,0 +1,10 @@
+bonus
+cat
+file2.txt
+Makefile
+mandatory
+pipex
+pipex_bonus
+pk
+public
+README.md
