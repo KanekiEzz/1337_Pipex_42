@@ -112,3 +112,9 @@ sleep 2
 clear
 done
 ```
+
+
+
+```
+ env -i PATH= ./pipex_bonus /dev/stdin "cat" "ls" /dev/stdout
+ ```

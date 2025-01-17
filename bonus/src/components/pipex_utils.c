@@ -86,11 +86,15 @@ void	pipex(t_list data, char **av, char **env)
 				error_and_exit("Pipe creation failed\n", 1));
 		i++;
 	}
-	(child1(data, av[2], pipes[0], env), close(data.fdin));
+	child1(data, av[2], pipes[0], env);
+	close(data.fdin);
+
 	child_intermediate(data, av, pipes, env);
+
 	child2(data, av[num_cmds + 1], pipes[num_cmds - 2], env);
-	close_all_pipe(pipes, num_cmds);
+
 	close(data.fdout);
+	close_all_pipe(pipes, num_cmds);
 	free_all_pipe(pipes, num_cmds - 1);
 	while (wait(NULL) != -1)
 		;

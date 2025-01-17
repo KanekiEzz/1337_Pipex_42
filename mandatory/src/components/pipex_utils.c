@@ -77,8 +77,8 @@ static	void	child1(t_list data, char *cmd, int *wr_pipe, char **env)
 	if (pid == 0)
 	{
 		close(wr_pipe[0]);
-		redirect_fd(data.fdin, 0, 0);
-		redirect_fd(wr_pipe[1], 1, 0);
+		redirect_fd(data.fdin, 0, "dup2 failed\n");
+		redirect_fd(wr_pipe[1], 1, "dup2 failed\n");
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
@@ -93,7 +93,6 @@ static	void	child1(t_list data, char *cmd, int *wr_pipe, char **env)
 void	pipex(t_list data, char **av, char **env)
 {
 	int		wr_pipe[2];
-	t_list	file;
 
 	if (pipe(wr_pipe) == -1)
 		(close_files(&data),

@@ -6,42 +6,58 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:52:10 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/16 18:28:22 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/17 19:01:04 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/pipex.h"
-
-void	child2(t_list data, char *cmd, int *end, char **env)
+void	close_files(t_list *data)
+{
+	if (data->fdin >= 0)
+		close(data->fdin);
+	if (data->fdout >= 0)
+		close(data->fdout);
+}
+void	child2(t_list data, char *cmd, int *wr_pipe, char **env)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		close(end[1]);
-		redirect_fd(end[0], 0, 0);
-		redirect_fd(data.fdout, 1, 0);
+		close(wr_pipe[1]);
+		redirect_fd(wr_pipe[0], 0, "dup2 failed\n");
+		redirect_fd(data.fdout, 1, "dup2 failed\n");
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
-		return ;
+	{
+		close(wr_pipe[0]);
+		close(wr_pipe[1]);
+		close_files(&data);
+		error_and_exit("fork failed\n", 1);
+	}
 }
 
-void	child1(t_list data, char *cmd, int *end, char **env)
+void	child1(t_list data, char *cmd, int *wr_pipe, char **env)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		close(end[0]);
-		redirect_fd(data.fdin, 0, 0);
-		redirect_fd(end[1], 1, 0);
+		close(wr_pipe[0]);
+		redirect_fd(data.fdin, 0, "dup2 failed\n");
+		redirect_fd(wr_pipe[1], 1, "dup2 failed\n");
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
-		return ;
+	{
+		close(wr_pipe[0]);
+		close(wr_pipe[1]);
+		close_files(&data);
+		error_and_exit("fork failed\n", 1);
+	}
 }
 
 void	child_intermediate(t_list data, char **av, int **pipes, char **env)
@@ -58,13 +74,13 @@ void	child_intermediate(t_list data, char **av, int **pipes, char **env)
 		if (pid == 0)
 		{
 			close(pipes[i - 1][1]);
-			redirect_fd(pipes[i - 1][0], 0, "Error redirecting input\n");
-			redirect_fd(pipes[i][1], 1, "Error redirecting output\n");
+			redirect_fd(pipes[i - 1][0], 0, "dup2 failed\n");
+			redirect_fd(pipes[i][1], 1, "dup2 failed\n");
 			close_all_pipe(pipes, num_cmds);
 			execute_cmd(av[i + 2], env);
 		}
 		else if (pid == -1)
-			error_and_exit("fork error...\n", 14);
+			error_and_exit("fork error...\n", 1);
 		close(pipes[i - 1][1]);
 		close(pipes[i - 1][0]);
 		i++;
