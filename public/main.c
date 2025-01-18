@@ -28,18 +28,18 @@ int main(int ac, char **av)
 	if (n != 0)
 	{
 		int status;
-		printf("1 status: %d\n", WEXITSTATUS(status));
+		dprintf(2, "1 status: %d\n", WEXITSTATUS(status));
 		wait_for_child(&status);
-		printf("===2 status: %d\n", WTERMSIG(status));
+		dprintf(2, "===2 status: %d\n", WTERMSIG(status));
 	}
 	int i;
 	for (i = n; i < n + 5; i++)
 	{
-		printf("%d ", i);
+		dprintf(2, "%d ", i);
 		fflush(stdout);
 	}
 	if (id != 0)
-		printf("\n");
+		dprintf(2, "\n");
 	// if (id == 0)
 	// 	printf("Hello from child process\n");
 	// else

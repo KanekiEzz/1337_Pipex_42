@@ -54,8 +54,8 @@ void	close_all_pipe(int **pipes, int num_cmd)
 	j = 0;
 	while (j < num_cmd - 1)
 	{
-		printf("closing pipe [%d][0]\n", j);
-		printf("closing pipe [%d][1]\n", j);
+		dprintf(2, "closing pipe [%d][0]\n", j);
+		dprintf(2, "closing pipe [%d][1]\n", j);
 		close(pipes[j][0]);
 		close(pipes[j][1]);
 		j++;
@@ -103,31 +103,31 @@ void	pipex(t_list data, char **av, char **env)
 
     child_intermediate(data, av, pipes, env);
 
-	printf("\nmine ki sali child_intermidate\n");
 	if (num_cmds != 2)
 	{
+		dprintf(2, "\nmine ki sali child_intermidate\n");
 		// close file 1 put not cloase fine file 1
-		printf("close[1]\n");
+		dprintf(2, "close[1]\n");
 		i = 0;
 		while (i < num_cmds - 1)
 		{
-			printf("close any file 1 => [%d][1]\n", i);
+			dprintf(2, "close any file 1 => [%d][1]\n", i);
 			close(pipes[i][1]);
 			i++;
 		}
 		// close all file 0 
-		printf("close[0]\n");
+		dprintf(2, "close[0]\n");
 		i = 0;
 		while (i < num_cmds - 2)
 		{
-			printf("close any file 1 => [%d][0]\n", i);
+			dprintf(2, "close any file 1 => [%d][0]\n", i);
 			close(pipes[i][0]);
 			i++;
 		}
 	}
 
 	child2(data, av[num_cmds + 1], pipes[num_cmds - 2], env);
-	printf("\n this is the end\n");
+	dprintf(2, "\n this is the end\n");
 	close_all_pipe(pipes, num_cmds);
 	close(data.fdout);
 

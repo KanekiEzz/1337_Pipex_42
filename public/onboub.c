@@ -29,7 +29,7 @@ int main ()
 		close(fd[1]);
 		char buffer[100];
 		read(fd[0], buffer, sizeof(buffer));
-		printf("Parent received: %s", buffer);
+		dprintf(2, "Parent received: %s", buffer);
 		close(fd[0]);
 	}
 	return 0;
