@@ -118,3 +118,15 @@ done
 ```
  env -i PATH= ./pipex_bonus /dev/stdin "cat" "ls" /dev/stdout
  ```
+
+
+ ```
+ For 4 commands (i.e., cmd1, cmd2, cmd3, cmd4):
+
+You need 3 pipes.
+Pipe 1: connects cmd1 to cmd2.
+Pipe 2: connects cmd2 to cmd3.
+Pipe 3: connects cmd3 to cmd4.
+Thus, you will need to open 3 pipes for 4 commands.
+
+```
