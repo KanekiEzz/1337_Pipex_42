@@ -130,3 +130,35 @@ Pipe 3: connects cmd3 to cmd4.
 Thus, you will need to open 3 pipes for 4 commands.
 
 ```
+
+
+
+```
+void	pipex(t_data arg, char **av, char **env)
+{
+	int	end[2];
+	int	new_end[2];
+
+	if (pipe(end) == -1)
+		perror("pipe error...");
+	first_child(arg, av[arg.iter++], env, end);
+	close(arg.fdin);
+	close(end[1]);
+	while (arg.iter < arg.ac - 2)
+	{
+		if (pipe(new_end) == -1)
+			perror("pipe error...");
+		end[1] = new_end[1];
+		middle_child(arg, av[arg.iter++], env, end);
+		close(new_end[1]);
+		close(end[0]);
+		end[0] = new_end[0];
+	}
+	close(end[1]);
+	last_child(arg, av[arg.iter], env, end);
+	close(arg.fdout);
+	close(end[0]);
+	while (wait(NULL) != -1)
+		;
+}
+```

@@ -54,8 +54,8 @@ void	close_all_pipe(int **pipes, int num_cmd)
 	j = 0;
 	while (j < num_cmd - 1)
 	{
-		// printf("closing pipe [%d][0]\n", j);
-		// printf("closing pipe [%d][1]\n", j);
+		printf("closing pipe [%d][0]\n", j);
+		printf("closing pipe [%d][1]\n", j);
 		close(pipes[j][0]);
 		close(pipes[j][1]);
 		j++;
@@ -80,7 +80,7 @@ void	pipex(t_list data, char **av, char **env)
 	pipes = malloc(sizeof(int *) * (num_cmds - 1));
 	if (!pipes)
 		error_and_exit("Pipe allocation failed\n", 1);
-	// printf("num_cmds: %d\n", num_cmds);
+	printf("num_cmds: %d\n", num_cmds);
 	while (i < num_cmds - 1)
 	{
 		pipes[i] = malloc(sizeof(int) * 2);
@@ -90,29 +90,46 @@ void	pipex(t_list data, char **av, char **env)
 				error_and_exit("Pipe creation failed\n", 1));
 		i++;
 	}
+	
 	// cmd1 | cmd2 | cmd3 | cmd4 ?? use 3 pipes
+
 
 	child1(data, av[2], pipes[0], env);
 	close(data.fdin);
-	// if (num_cmds != 2 )
-	// 	close(pipes[0][0]);
+	close(pipes[0][1]);
 
-	child_intermediate(data, av, pipes, env);
+	// cmd1		| cmd2	  | cmd3     | cmd4 ?? use 3 pipes
+	// close(1) | clos(1) | close(1) |  *//close
+
+    child_intermediate(data, av, pipes, env);
+
+	printf("\nmine ki sali child_intermidate\n");
+	if (num_cmds != 2)
+	{
+		// close file 1 put not cloase fine file 1
+		printf("close[1]\n");
+		i = 0;
+		while (i < num_cmds - 1)
+		{
+			printf("close any file 1 => [%d][1]\n", i);
+			close(pipes[i][1]);
+			i++;
+		}
+		// close all file 0 
+		printf("close[0]\n");
+		i = 0;
+		while (i < num_cmds - 2)
+		{
+			printf("close any file 1 => [%d][0]\n", i);
+			close(pipes[i][0]);
+			i++;
+		}
+	}
 
 	child2(data, av[num_cmds + 1], pipes[num_cmds - 2], env);
-	close(data.fdout);
-	// close(pipes[num_cmds - 2][0]);
-	// close(pipes[num_cmds - 2][1]);
-	// int k = 0;
-	// while (k < num_cmds - 1)
-	// {
-	// 	printf("closing pipe [%d][0]\n", k);
-	// 	printf("closing pipe [%d][1]\n", k);
-	// 	close(pipes[k][0]);
-	// 	close(pipes[k][1]);
-	// 	k++;
-	// }
+	printf("\n this is the end\n");
 	close_all_pipe(pipes, num_cmds);
+	close(data.fdout);
 
 	free_all_pipe(pipes, num_cmds - 1);
 	while (wait(NULL) != -1)

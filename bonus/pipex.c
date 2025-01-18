@@ -14,9 +14,9 @@
 
 static	void	close_files(t_list *data)
 {
-	if (data->fdin >= 0)
+	// if (data->fdin >= 0)
 		close(data->fdin);
-	if (data->fdout >= 0)
+	// if (data->fdout >= 0)
 		close(data->fdout);
 }
 

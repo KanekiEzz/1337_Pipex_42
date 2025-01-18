@@ -6,16 +6,16 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:52:10 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/18 15:27:28 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/18 20:03:50 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/pipex.h"
 void	close_files(t_list *data)
 {
-	if (data->fdin >= 0)
+	// if (data->fdin >= 0)
 		close(data->fdin);
-	if (data->fdout >= 0)
+	// if (data->fdout >= 0)
 		close(data->fdout);
 }
 void	child2(t_list data, char *cmd, int *wr_pipe, char **env)
@@ -25,10 +25,11 @@ void	child2(t_list data, char *cmd, int *wr_pipe, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		// printf("chil2: \n");
 		close(wr_pipe[1]);
 		redirect_fd(wr_pipe[0], 0, "dup2 failed2\n");
 		redirect_fd(data.fdout, 1, "dup2 failed2\n");
+		// close(wr_pipe[0]);
+		// close(data.fdout);
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
@@ -47,10 +48,11 @@ void	child1(t_list data, char *cmd, int *wr_pipe, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("chi: \n");
 		close(wr_pipe[0]);
 		redirect_fd(data.fdin, 0, "dup2 failed1\n");
 		redirect_fd(wr_pipe[1], 1, "dup2 failed1\n");
+		// close(wr_pipe[1]);
+		// close(data.fdin); 
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
@@ -76,12 +78,15 @@ void	child_intermediate(t_list data, char **av, int **pipes, char **env)
 		pid = fork();
 		if (pid == 0)
 		{
+			// printf("pipe0: %d\n", pipes[i][0]);
+			// printf("pipe1: %d\n", pipes[i - 1][1]);
+			// printf("fd.in: %d\n", data.fdin);
+			// printf("fd.out: %d\n", data.fdout);
+		
 			close(pipes[i - 1][1]);
 			redirect_fd(pipes[i - 1][0], 0, "dup2 failed intrl\n");
 			redirect_fd(pipes[i][1], 1, "dup2 failed intr\n");
-			// close(pipes[0][0]);
-			// close(pipes[0][1]);
-			// close_all_pipe(pipes, num_cmds);
+			close_all_pipe(pipes, num_cmds);
 			execute_cmd(av[i + 2], env);
 		}
 		else if (pid == -1)
@@ -89,8 +94,10 @@ void	child_intermediate(t_list data, char **av, int **pipes, char **env)
 			close_files(&data);
 			error_and_exit("fork failed\n", 1);
 		}
-		close(pipes[i - 1][1]);
+		printf("close in child_intermediate file%d: [%d][0]\n", i-1, i-1);
+		printf("close in child_intermediate file%d: [%d][1]\n", i-1, i-1);
 		close(pipes[i - 1][0]);
+		close(pipes[i - 1][1]);
 		i++;
 	}
 }
