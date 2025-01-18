@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:52:10 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/18 10:23:10 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/18 15:27:28 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ void	child2(t_list data, char *cmd, int *wr_pipe, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
+		// printf("chil2: \n");
 		close(wr_pipe[1]);
-		redirect_fd(wr_pipe[0], 0, "dup2 failed\n");
-		redirect_fd(data.fdout, 1, "dup2 failed\n");
+		redirect_fd(wr_pipe[0], 0, "dup2 failed2\n");
+		redirect_fd(data.fdout, 1, "dup2 failed2\n");
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
@@ -46,9 +47,10 @@ void	child1(t_list data, char *cmd, int *wr_pipe, char **env)
 	pid = fork();
 	if (pid == 0)
 	{
+		printf("chi: \n");
 		close(wr_pipe[0]);
-		redirect_fd(data.fdin, 0, "dup2 failed\n");
-		redirect_fd(wr_pipe[1], 1, "dup2 failed\n");
+		redirect_fd(data.fdin, 0, "dup2 failed1\n");
+		redirect_fd(wr_pipe[1], 1, "dup2 failed1\n");
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
@@ -68,16 +70,18 @@ void	child_intermediate(t_list data, char **av, int **pipes, char **env)
 
 	i = 1;
 	num_cmds = data.num_cmds;
-	while (i < num_cmds - 1)
+	while (i  < num_cmds - 1)
 	{
+		// printf("child_intermediate: \n");
 		pid = fork();
 		if (pid == 0)
 		{
 			close(pipes[i - 1][1]);
-			redirect_fd(pipes[i - 1][0], 0, "dup2 failed\n");
-			close(pipes[i][0]);
-			redirect_fd(pipes[i][1], 1, "dup2 failed\n");
-			close_all_pipe(pipes, num_cmds);
+			redirect_fd(pipes[i - 1][0], 0, "dup2 failed intrl\n");
+			redirect_fd(pipes[i][1], 1, "dup2 failed intr\n");
+			// close(pipes[0][0]);
+			// close(pipes[0][1]);
+			// close_all_pipe(pipes, num_cmds);
 			execute_cmd(av[i + 2], env);
 		}
 		else if (pid == -1)
@@ -89,8 +93,5 @@ void	child_intermediate(t_list data, char **av, int **pipes, char **env)
 		close(pipes[i - 1][0]);
 		i++;
 	}
-	close(pipes[num_cmds - 2][0]);
-    close(pipes[num_cmds - 2][1]);
-
 }
 
