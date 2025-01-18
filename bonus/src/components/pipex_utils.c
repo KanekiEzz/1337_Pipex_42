@@ -52,7 +52,7 @@ void	close_all_pipe(int **pipes, int num_cmd)
 	if (!pipes)
 		return ;
 	j = 0;
-	while (j < num_cmd - 1)
+	while (j < num_cmd)
 	{
 		printf("closing pipe [%d][0]\n", j);
 		printf("closing pipe [%d][1]\n\n", j);
@@ -94,6 +94,8 @@ void	pipex(t_list data, char **av, char **env)
 	child_intermediate(data, av, pipes, env);
 
 	child2(data, av[num_cmds + 1], pipes[num_cmds - 2], env);
+	close(pipes[num_cmds - 2][0]);
+    close(pipes[num_cmds - 2][1]);
 	close(data.fdout);
 	close_all_pipe(pipes, num_cmds);
 

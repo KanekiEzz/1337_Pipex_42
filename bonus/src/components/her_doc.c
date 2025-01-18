@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:50:23 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/18 09:54:18 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/18 10:42:23 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,17 @@
 void	handle_here_doc(char *limiter, int *fd)
 {
     char	*line;
-	int		f = 0;
 
     if (pipe(fd) == -1)
         error_and_exit("Pipe creation failed for here_doc\n", 1);
-    write(1, "here_doc> ", 10);	
     while (1)
     {
-		if (f == 1)
-			write(1, "here_doc> ", 10);
+		write(1, "here_doc> ", 10);
         line = get_next_line(0);
         if (!line)
         {
-			f = 0;
-			continue ;
+			write(1, "\n", 1);
+			break ;
         }
         if (line[ft_strlen(line) - 1] == '\n')
             line[ft_strlen(line) - 1] = '\0';
@@ -38,7 +35,7 @@ void	handle_here_doc(char *limiter, int *fd)
             break ;
         }
         (write(fd[1], line, ft_strlen(line)), write(fd[1], "\n", 1));
-        (f = 1, free(line));
+        free(line);
     }
     close(fd[1]);
 }

@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:52:10 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/17 19:01:04 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/18 10:23:10 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,22 @@ void	child_intermediate(t_list data, char **av, int **pipes, char **env)
 		{
 			close(pipes[i - 1][1]);
 			redirect_fd(pipes[i - 1][0], 0, "dup2 failed\n");
+			close(pipes[i][0]);
 			redirect_fd(pipes[i][1], 1, "dup2 failed\n");
 			close_all_pipe(pipes, num_cmds);
 			execute_cmd(av[i + 2], env);
 		}
 		else if (pid == -1)
-			error_and_exit("fork error...\n", 1);
+		{
+			close_files(&data);
+			error_and_exit("fork failed\n", 1);
+		}
 		close(pipes[i - 1][1]);
 		close(pipes[i - 1][0]);
 		i++;
 	}
+	close(pipes[num_cmds - 2][0]);
+    close(pipes[num_cmds - 2][1]);
+
 }
+
