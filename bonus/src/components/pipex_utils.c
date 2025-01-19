@@ -90,52 +90,27 @@ void	pipex(t_list data, char **av, char **env)
 				error_and_exit("Pipe creation failed\n", 1));
 		i++;
 	}
-	
-	// cmd1 | cmd2 | cmd3 | cmd4 ?? use 3 pipes
-
-
 	child1(data, av[2], pipes, env);
 	close(data.fdin);
-	// int j = 0;
-	// dprintf(2, "close mnine isali child 1----\n");
-	// while (j < num_cmds - 2)
-	// {
-	// 	dprintf(2, "close pipes  mnine isali child 1: [%d][1]\n", j);
-	// 	close(pipes[j][1]);
-	// 	j++;
-	// }
-	// cmd1		| cmd2	  | cmd3     | cmd4 ?? use 3 pipes
-	// close(1) | clos(1) | close(1) |  *//close
-
     child_intermediate(data, av, pipes, env);
 
-	if (num_cmds != 2)
-	{
-		// dprintf(2, "\nmine ki sali child_intermidate\n");
-		// close file 1 put not cloase fine file 1
-		// dprintf(2, "close[1]\n");
-		i = 0;
-		while (i < num_cmds - 1)
-		{
-			// dprintf(2, "close any file 1 => [%d][1]\n", i);
-			close(pipes[i][1]);
-			i++;
-		}
-		// close all file 0 
-		// dprintf(2, "close[0]\n");
-		i = 0;
-		while (i < num_cmds - 2)
-		{
-			// dprintf(2, "close any file 1 => [%d][0]\n", i);
-			close(pipes[i][0]);
-			i++;
-		}
-	}
+	// if (num_cmds != 2)
+	// {
+	// 	i = 0;
+	// 	while (i < num_cmds - 1)
+	// 	{
+	// 		close(pipes[i][1]);
+	// 		i++;
+	// 	}
+	// 	i = 0;
+	// 	while (i < num_cmds - 2)
+	// 	{
+	// 		close(pipes[i][0]);
+	// 		i++;
+	// 	}
+	// }
 	child2(data, av[num_cmds + 1], pipes, env);
-	// child2(data, av[num_cmds + 1], pipes[num_cmds - 2], env);
 
-
-	// dprintf(2, "\n this is the end\n");
 	close_all_pipe(pipes, num_cmds);
 	close(data.fdout);
 

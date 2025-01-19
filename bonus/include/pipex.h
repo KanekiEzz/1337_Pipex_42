@@ -57,9 +57,7 @@ void	ft_free_string(char **str);
 
 //	components/creat_child.c
 void	child2(t_list data, char *cmd, int **wr_pipe, char **env);
-// void	child2(t_list data, char *cmd, int *wr_pipe, char **env);
 void	child1(t_list data, char *cmd, int **wr_pipe, char **env);
-// void	child1(t_list data, char *cmd, int *end, char **env);
 void	child_intermediate(t_list data, char **av, int **pipes, char **env);
 
 //	components/her_doc.c
