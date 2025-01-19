@@ -6,7 +6,7 @@
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:52:10 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/18 20:23:21 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/19 13:26:35 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	child1(t_list data, char *cmd, int *wr_pipe, char **env)
 		close(wr_pipe[0]);
 		redirect_fd(data.fdin, 0, "dup2 failed1\n");
 		redirect_fd(wr_pipe[1], 1, "dup2 failed1\n");
-		close(wr_pipe[1]);
-		close(data.fdin); 
+		// close(wr_pipe[1]);
+		// close(data.fdin); 
 		execute_cmd(cmd, env);
 	}
 	else if (pid == -1)
@@ -82,6 +82,12 @@ void	child_intermediate(t_list data, char **av, int **pipes, char **env)
 			// printf("pipe1: %d\n", pipes[i - 1][1]);
 			// printf("fd.in: %d\n", data.fdin);
 			// printf("fd.out: %d\n", data.fdout);
+			int j = 0;
+			while (j < num_cmds - 2)
+			{
+				close(pipes[j][1]);
+				j++;
+			}
 		
 			close(pipes[i - 1][1]);
 			redirect_fd(pipes[i - 1][0], 0, "dup2 failed intrl\n");

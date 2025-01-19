@@ -96,8 +96,14 @@ void	pipex(t_list data, char **av, char **env)
 
 	child1(data, av[2], pipes[0], env);
 	close(data.fdin);
-	close(pipes[0][1]);
-
+	int j = 0;
+	dprintf(2, "close mnine isali child 1----\n");
+	while (j < num_cmds - 2)
+	{
+		dprintf(2, "close pipes  mnine isali child 1: [%d][1]\n", j);
+		close(pipes[j][1]);
+		j++;
+	}
 	// cmd1		| cmd2	  | cmd3     | cmd4 ?? use 3 pipes
 	// close(1) | clos(1) | close(1) |  *//close
 
@@ -125,8 +131,9 @@ void	pipex(t_list data, char **av, char **env)
 			i++;
 		}
 	}
-
 	child2(data, av[num_cmds + 1], pipes[num_cmds - 2], env);
+
+
 	dprintf(2, "\n this is the end\n");
 	close_all_pipe(pipes, num_cmds);
 	close(data.fdout);
