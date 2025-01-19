@@ -54,8 +54,8 @@ void	close_all_pipe(int **pipes, int num_cmd)
 	j = 0;
 	while (j < num_cmd - 1)
 	{
-		dprintf(2, "closing pipe [%d][0]\n", j);
-		dprintf(2, "closing pipe [%d][1]\n", j);
+		// dprintf(2, "closing pipe [%d][0]\n", j);
+		// dprintf(2, "closing pipe [%d][1]\n", j);
 		close(pipes[j][0]);
 		close(pipes[j][1]);
 		j++;
@@ -80,7 +80,7 @@ void	pipex(t_list data, char **av, char **env)
 	pipes = malloc(sizeof(int *) * (num_cmds - 1));
 	if (!pipes)
 		error_and_exit("Pipe allocation failed\n", 1);
-	printf("num_cmds: %d\n", num_cmds);
+	// printf("num_cmds: %d\n", num_cmds);
 	while (i < num_cmds - 1)
 	{
 		pipes[i] = malloc(sizeof(int) * 2);
@@ -94,16 +94,16 @@ void	pipex(t_list data, char **av, char **env)
 	// cmd1 | cmd2 | cmd3 | cmd4 ?? use 3 pipes
 
 
-	child1(data, av[2], pipes[0], env);
+	child1(data, av[2], pipes, env);
 	close(data.fdin);
-	int j = 0;
-	dprintf(2, "close mnine isali child 1----\n");
-	while (j < num_cmds - 2)
-	{
-		dprintf(2, "close pipes  mnine isali child 1: [%d][1]\n", j);
-		close(pipes[j][1]);
-		j++;
-	}
+	// int j = 0;
+	// dprintf(2, "close mnine isali child 1----\n");
+	// while (j < num_cmds - 2)
+	// {
+	// 	dprintf(2, "close pipes  mnine isali child 1: [%d][1]\n", j);
+	// 	close(pipes[j][1]);
+	// 	j++;
+	// }
 	// cmd1		| cmd2	  | cmd3     | cmd4 ?? use 3 pipes
 	// close(1) | clos(1) | close(1) |  *//close
 
@@ -111,30 +111,31 @@ void	pipex(t_list data, char **av, char **env)
 
 	if (num_cmds != 2)
 	{
-		dprintf(2, "\nmine ki sali child_intermidate\n");
+		// dprintf(2, "\nmine ki sali child_intermidate\n");
 		// close file 1 put not cloase fine file 1
-		dprintf(2, "close[1]\n");
+		// dprintf(2, "close[1]\n");
 		i = 0;
 		while (i < num_cmds - 1)
 		{
-			dprintf(2, "close any file 1 => [%d][1]\n", i);
+			// dprintf(2, "close any file 1 => [%d][1]\n", i);
 			close(pipes[i][1]);
 			i++;
 		}
 		// close all file 0 
-		dprintf(2, "close[0]\n");
+		// dprintf(2, "close[0]\n");
 		i = 0;
 		while (i < num_cmds - 2)
 		{
-			dprintf(2, "close any file 1 => [%d][0]\n", i);
+			// dprintf(2, "close any file 1 => [%d][0]\n", i);
 			close(pipes[i][0]);
 			i++;
 		}
 	}
-	child2(data, av[num_cmds + 1], pipes[num_cmds - 2], env);
+	child2(data, av[num_cmds + 1], pipes, env);
+	// child2(data, av[num_cmds + 1], pipes[num_cmds - 2], env);
 
 
-	dprintf(2, "\n this is the end\n");
+	// dprintf(2, "\n this is the end\n");
 	close_all_pipe(pipes, num_cmds);
 	close(data.fdout);
 
