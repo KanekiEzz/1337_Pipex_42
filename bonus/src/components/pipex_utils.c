@@ -54,8 +54,6 @@ void	close_all_pipe(int **pipes, int num_cmd)
 	j = 0;
 	while (j < num_cmd - 1)
 	{
-		// dprintf(2, "closing pipe [%d][0]\n", j);
-		// dprintf(2, "closing pipe [%d][1]\n", j);
 		close(pipes[j][0]);
 		close(pipes[j][1]);
 		j++;
@@ -80,40 +78,19 @@ void	pipex(t_list data, char **av, char **env)
 	pipes = malloc(sizeof(int *) * (num_cmds - 1));
 	if (!pipes)
 		error_and_exit("Pipe allocation failed\n", 1);
-	// printf("num_cmds: %d\n", num_cmds);
 	while (i < num_cmds - 1)
 	{
 		pipes[i] = malloc(sizeof(int) * 2);
-		// printf("pipe [%d]\n", i);
 		if (!pipes[i] || pipe(pipes[i]) == -1)
 			(free_all_pipe(pipes, i),
 				error_and_exit("Pipe creation failed\n", 1));
 		i++;
 	}
-	child1(data, av[2], pipes, env);
-	close(data.fdin);
-    child_intermediate(data, av, pipes, env);
-
-	// if (num_cmds != 2)
-	// {
-	// 	i = 0;
-	// 	while (i < num_cmds - 1)
-	// 	{
-	// 		close(pipes[i][1]);
-	// 		i++;
-	// 	}
-	// 	i = 0;
-	// 	while (i < num_cmds - 2)
-	// 	{
-	// 		close(pipes[i][0]);
-	// 		i++;
-	// 	}
-	// }
+	(child1(data, av[2], pipes, env), close(data.fdin));
+	child_intermediate(data, av, pipes, env);
 	child2(data, av[num_cmds + 1], pipes, env);
-
 	close_all_pipe(pipes, num_cmds);
 	close(data.fdout);
-
 	free_all_pipe(pipes, num_cmds - 1);
 	while (wait(NULL) != -1)
 		;

@@ -14,10 +14,8 @@
 
 static	void	close_files(t_list *data)
 {
-	// if (data->fdin >= 0)
-		close(data->fdin);
-	// if (data->fdout >= 0)
-		close(data->fdout);
+	close(data->fdin);
+	close(data->fdout);
 }
 
 void	open_files(t_list *data, int ac, char **av)

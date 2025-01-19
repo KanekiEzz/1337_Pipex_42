@@ -21,9 +21,6 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <string.h>
-
-#include <stdio.h>
-
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 4096
 # endif
