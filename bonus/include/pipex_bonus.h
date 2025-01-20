@@ -26,8 +26,6 @@
 
 typedef struct s_stract
 {
-	char	**cmd;
-	char	*path;
 	char	*infile;
 	char	*outfile;
 	int		fdin;

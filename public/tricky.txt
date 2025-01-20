@@ -1,4 +1,0 @@
-I will be printed in the file tricky.txt
-tricky.txt: 3
-tricky.txt: 4
-i: 1
