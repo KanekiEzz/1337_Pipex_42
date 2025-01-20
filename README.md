@@ -1,4 +1,3 @@
-
 <h1 align="center">1337🇲🇦_Pipex_Tutorial_🇬🇧 - 42 Kaneki</h1>
 <p align="center">
   <a href="https://github.com/KanekiEzz/1337_Pipex_42">
@@ -6,10 +5,9 @@
   </a>
 </p>
 
-
 ## Overview
 
-The **Pipex** project is an implementation of a simplified shell pipeline functionality in C. It reproduces the behavior of the Unix pipe `|`, allowing the execution of multiple commands where the output of one command is passed as the input to the next.
+✨ The **Pipex** project is an implementation of a simplified shell pipeline functionality in C. It reproduces the behavior of the Unix pipe `|`, allowing the execution of multiple commands where the output of one command is passed as the input to the next.
 
 This project also includes a **bonus part**, extending its functionality to handle additional features such as `here_doc` and multiple commands.
 
@@ -19,20 +17,20 @@ This project also includes a **bonus part**, extending its functionality to hand
 
 ### Mandatory Part
 
-- Executes a pipeline between two commands (e.g., `cmd1 | cmd2`).
-- Handles file redirection for input and output.
-- Proper error handling for invalid commands, files, and system calls.
+- 🚀 Executes a pipeline between two commands (e.g., `cmd1 | cmd2`).
+- 📁 Handles file redirection for input and output.
+- ❌ Proper error handling for invalid commands, files, and system calls.
 - Supports:
-  - `dup2` for file descriptor duplication.
-  - `fork` for process creation.
-  - `pipe` for inter-process communication.
-  - `execve` to replace process images.
+  - 🔄 `dup2` for file descriptor duplication.
+  - 🧵 `fork` for process creation.
+  - 📡 `pipe` for inter-process communication.
+  - 🏗️ `execve` to replace process images.
 
 ### Bonus Part
 
-- Handles multiple commands (e.g., `cmd1 | cmd2 | cmd3 | ... | cmdN`).
-- Implements `here_doc` functionality for heredoc input redirection.
-- Additional utilities for flexible pipeline construction.
+- 🔀 Handles multiple commands (e.g., `cmd1 | cmd2 | cmd3 | ... | cmdN`).
+- 📝 Implements `here_doc` functionality for heredoc input redirection.
+- 🛠️ Additional utilities for flexible pipeline construction.
 
 ---
 
@@ -230,16 +228,19 @@ while true; do lsof -p 527654; sleep 1; clear; done
 
 ## Examples with PATH Reset
 
-remove path => 
+🚫 **Remove PATH**:  
 ```bash
 env -i PATH= 
 ```
+
 ```bash
 ./pipex_bonus /dev/stdin "cat" "ls" /dev/stdout
 ```
+
 ```bash
 ./pipex_bonus /dev/stdin "/bin/cat" "/bin/ls" /dev/stdout
 ```
+
 ### Command-Pipe Relationships:
 
 For 4 commands (i.e., cmd1, cmd2, cmd3, cmd4):
@@ -253,7 +254,6 @@ Thus, you will need to open 3 pipes for 4 commands.
 
 ---
 
-
 # 👨‍💻 Author ✍🏼
 
 <table>
@@ -261,7 +261,6 @@ Thus, you will need to open 3 pipes for 4 commands.
     <td align="center"><a href="https://github.com/KanekiEzz/"><img src="https://avatars.githubusercontent.com/u/110631781?s=400&u=0cd1de60c073f367d291df9c6ccef5c18ac64e41&v=4" width="100px;" alt="100px"/><br /><sub><b>iezzam</b></sub></a><br /><a href="https://profile.intra.42.fr/users/iezzam" title="Intra 42">iezzam42</a></td>
   </tr>
 </table>
-
 
 # 🔍 You might be interested!
 
@@ -272,3 +271,4 @@ Thus, you will need to open 3 pipes for 4 commands.
 ### 👤 - My profile on the intra 42 ↙️
 
 [HERE](https://profile.intra.42.fr/users/iezzam)
+
