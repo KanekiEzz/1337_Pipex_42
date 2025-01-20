@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/10 11:30:19 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/10 18:25:07 by iezzam           ###   ########.fr       */
+/*   Created: 2025/01/19 17:45:38 by iezzam            #+#    #+#             */
+/*   Updated: 2025/01/19 17:45:42 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/pipex.h"
+#include "../../include/pipex_bonus.h"
 
 static size_t	ft_count_word(const char *str, char c)
 {

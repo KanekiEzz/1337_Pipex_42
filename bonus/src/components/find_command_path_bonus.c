@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_command_path.c                                :+:      :+:    :+:   */
+/*   find_command_path_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iezzam <iezzam@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 16:35:28 by iezzam            #+#    #+#             */
-/*   Updated: 2025/01/19 16:08:27 by iezzam           ###   ########.fr       */
+/*   Updated: 2025/01/19 17:46:47 by iezzam           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/pipex.h"
+#include "../../include/pipex_bonus.h"
 
 static char	*get_path_variable(char **env)
 {

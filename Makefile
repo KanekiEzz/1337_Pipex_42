@@ -1,10 +1,9 @@
 NAME = pipex
 NAMEB = pipex_bonus
 CC = cc
-# FLAGS = -Wall -Wextra -Werror
-FLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+FLAGS = -Wall -Wextra -Werror
 INC = ./mandatory/include/pipex.h
-INCB = ./bonus/include/pipex.h
+INCB = ./bonus/include/pipex_bonus.h
 RM = rm -f
 
 GREEN = \033[0;32m
@@ -23,20 +22,20 @@ SRCS =	./mandatory/pipex.c \
 		./mandatory/src/lib/ft_strncmp.c \
 		./mandatory/src/lib/ft_strtok.c \
 
-SRCSB =	./bonus/pipex.c \
-		./bonus/src/components/creat_child.c \
-		./bonus/src/components/error_handling.c \
-		./bonus/src/components/find_command_path.c \
-		./bonus/src/components/her_doc.c \
-		./bonus/src/components/pipex_utils.c \
-		./bonus/src/lib/ft_split.c \
-		./bonus/src/lib/ft_strdup.c \
-		./bonus/src/lib/ft_strjoin.c \
-		./bonus/src/lib/ft_strlen.c \
-		./bonus/src/lib/ft_strncmp.c \
-		./bonus/src/lib/ft_strtok.c \
-		./bonus/get_next_line/get_next_line.c \
-		./bonus/get_next_line/get_next_line_utils.c \
+SRCSB =	./bonus/pipex_bonus.c \
+		./bonus/src/components/creat_child_bonus.c \
+		./bonus/src/components/error_handling_bonus.c \
+		./bonus/src/components/find_command_path_bonus.c \
+		./bonus/src/components/her_doc_bonus.c \
+		./bonus/src/components/pipex_utils_bonus.c \
+		./bonus/src/lib/ft_split_bonus.c \
+		./bonus/src/lib/ft_strdup_bonus.c \
+		./bonus/src/lib/ft_strjoin_bonus.c \
+		./bonus/src/lib/ft_strlen_bonus.c \
+		./bonus/src/lib/ft_strncmp_bonus.c \
+		./bonus/src/lib/ft_strtok_bonus.c \
+		./bonus/get_next_line/get_next_line_bonus.c \
+		./bonus/get_next_line/get_next_line_utils_bonus.c \
 
 OBJS = $(SRCS:.c=.o)
 OBJSB = $(SRCSB:.c=.o)
