@@ -253,12 +253,22 @@ Thus, you will need to open 3 pipes for 4 commands.
 
 ---
 
-## Emoji Key
 
-🎯 **Focus Areas**  
-🚀 **Performance Tips**  
-💡 **Implementation Notes**  
-🛠️ **Debugging Tips**
+# 👨‍💻 Author ✍🏼
 
-by kaneki
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/KanekiEzz/"><img src="https://avatars.githubusercontent.com/u/110631781?s=400&u=0cd1de60c073f367d291df9c6ccef5c18ac64e41&v=4" width="100px;" alt="100px"/><br /><sub><b>iezzam</b></sub></a><br /><a href="https://profile.intra.42.fr/users/iezzam" title="Intra 42">iezzam42</a></td>
+  </tr>
+</table>
 
+
+# 🔍 You might be interested!
+
+### 📚  - To see my progress in the common core 42 ↙️
+
+[HERE](https://github.com/KanekiEzz/42cursus)
+
+### 👤 - My profile on the intra 42 ↙️
+
+[HERE](https://profile.intra.42.fr/users/iezzam)
