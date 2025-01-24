@@ -56,7 +56,7 @@ ${NAMEB}: ${OBJSB}
 	@printf "$(GREEN)Building: ${NAMEB}$(RESET)\n"
 	${CC} ${FLAGS} ${OBJSB} -o ${NAMEB}
 
-all: ${NAME} ${NAMEB}
+all: ${NAME}
 
 bonus: ${NAMEB}
 
